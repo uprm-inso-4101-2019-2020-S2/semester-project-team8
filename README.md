@@ -1,4 +1,5 @@
-# Menstrual Cycle App - Team 8
+# Flovver - Period Tracker and Ovulation Calendar
+## Team 8 - Yavier Mari, Guillermo Carrión, Yamil Hernández
 
 Team 8 will be in charge of creating a Menstrual Cycle App in which the user will 
 be able to track down their menstrual patterns. With this data, the app will
