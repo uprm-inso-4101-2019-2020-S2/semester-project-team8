@@ -8,6 +8,8 @@ make estimations for the user's menstrual cycle and notify an approximated impor
 dates. The user will also be able to link the app with other users to show
 their personal data.
 
+Based on: https://github.com/kenneth-rosario/scala-npm-postgres-docker-boilerplate
+
 # Pre-requisites:
 * Download the expo app in your phone for testing app  
 * Install nodejs and npm
