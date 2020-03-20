@@ -22,6 +22,7 @@ services:
             - SECRET_KEY=foo
             - DEBUG=1
             - DB_PORT=5432
+            - CLIENT_ID=foo
         depends_on:
             - db
 
