@@ -3,7 +3,7 @@ CREATE TABLE "users"
 (
   id SERIAL NOT NULL,
   email varchar(40) NOT NULL,
-  image_url varchar(220),
+  image_url varchar(220)
 );
 
 -- Insert test user
