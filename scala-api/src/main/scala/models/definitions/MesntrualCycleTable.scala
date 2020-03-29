@@ -1,7 +1,6 @@
 package models.definitions
 import slick.jdbc.PostgresProfile.api._
 import java.util.Date
-
 import models.MenstrualCycleModels.MenstrualCycle
 // TODO: Fix Error
 class MenstrualCycleTable(tag:Tag) extends Table[MenstrualCycle](tag, "menstrual_cycle"){
