@@ -1,0 +1,9 @@
+package models.SharedUsersModel
+
+
+case class SharedUsers(
+    id:Option[Long],
+    users_id:Option[Long],
+    calendar_id:Option[Long],
+    is_allowed:Boolean
+);

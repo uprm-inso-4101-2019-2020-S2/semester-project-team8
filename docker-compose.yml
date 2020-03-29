@@ -22,7 +22,7 @@ services:
             - SECRET_KEY=foo
             - DEBUG=1
             - DB_PORT=5432
-            - CLIENT_ID=foo
+            - CLIENT_ID=716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com
         depends_on:
             - db
 
