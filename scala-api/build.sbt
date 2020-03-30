@@ -2,7 +2,7 @@ name := "scala-api"
 
 version := "0.1"
 
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.11"
 
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.4.0",

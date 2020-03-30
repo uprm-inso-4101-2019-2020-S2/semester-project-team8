@@ -30,11 +30,12 @@ object GoogleSignIn {
          return payload.getEmail
       }catch{
         case e: NoSuchElementException =>
-            val u = Users(email = payload.getEmail, image_url = s"${payload.get("picture")}", id=null)
+            val u = Users(email = payload.getEmail, id=null, isRegular=false)
             Await.result(UserDao.create(u), 3000 millis)
             return payload.getEmail
       }
     }
+    
     // Return null if id_token was not valid
     null
   }

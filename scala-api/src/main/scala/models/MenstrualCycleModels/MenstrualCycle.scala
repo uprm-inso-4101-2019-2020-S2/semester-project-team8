@@ -1,11 +1,11 @@
 package models.MenstrualCycleModels
-import java.util.Date
+import java.sql.Date
 
 case class MenstrualCycle(
                 id:Option[Long],
                 calendar_id:Option[Long],
-                start_date:Date,
-                end_date:Date,
+                start_date:Option[Date],
+                end_date:Option[Date],
                 bleed_start:Date,
                 bleed_end:Date
                 )

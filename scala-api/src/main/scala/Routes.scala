@@ -9,7 +9,7 @@ trait Routes extends ApiErrorHandler with TokenApi with UsersApi {
     cors() {
       pathPrefix("v1") {
         login ~
-          users
+        users
       }
     } ~ path("")(getFromResource("public/index.html"))
 
