@@ -1,20 +1,21 @@
-import React , {useEffect} from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity, Image,  Text} from  'react-native';
 import {MID_BLUE} from '../../styles/colors'
-import * as Fonts from 'expo-font';
 
 
 const SignInGoogle = (props:any) => {
 
 
     return (
-      <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5}>
+      <TouchableOpacity 
+        
+        style={styles.GooglePlusStyle} activeOpacity={0.5}>
  
             <Image 
             source={require('../../images/GoogleSignIn.png')} 
             style={styles.ImageIconStyle} 
             />
-            <Text style={styles.TextStyle}> Login Using Google </Text>
+            <Text style={styles.TextStyle}> Login with Google </Text>
             
       </TouchableOpacity>
     );
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     "ImageIconStyle":{
         padding: 10,
         margin: 5,
-        marginRight:18,
+        marginRight:22,
         height: 25,
         width: 25,
         resizeMode : 'stretch',
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
     "TextStyle":{
         color: "#fff",
         marginBottom : 4,
-        marginRight :20,
         fontSize:15,
 
     }

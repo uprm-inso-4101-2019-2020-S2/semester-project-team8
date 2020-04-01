@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions,Button} from 'react-native';
 import {LIGHT_GREY} from '../../styles/colors' 
 import SignInGoogle from './SignInGoogle'
 
@@ -8,7 +8,6 @@ interface Props {
 };
 
 const Login = (props: Props) => {
-
     return (
         <View style={styles.container} >
             <Image 
@@ -17,7 +16,6 @@ const Login = (props: Props) => {
                 source={require('../../images/FlovverLogo.png')} />
 
             <SignInGoogle />
-
             <Text 
                 style={styles.consent}>
                 By signing up for Flovver you agree to our Terms of {"\n"} Service. 
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
         fontFamily:'Lato'
     },
     "image":{
-        width: 300,
+        width: Dimensions.get("window").width * 0.7,
         height: 200
     },
     "consent":{
