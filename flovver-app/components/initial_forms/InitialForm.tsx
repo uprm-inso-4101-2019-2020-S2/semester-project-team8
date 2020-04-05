@@ -13,7 +13,7 @@ const InitialForm = ( { history } ) => {
     const [periodDuration, setPeriodDuration] = useState(5)
     const [cycleLen, setCycleLen] = useState(28)
     
-    useEffect(() => {
+    useEffect(() => { 
         history.push("/InitialForm/Period")
     }, [])
 
@@ -21,12 +21,18 @@ const InitialForm = ( { history } ) => {
         <View style={styles.container} >
             <Route 
                 path = "/InitialForm/Period"
-                component={PeriodForm} />
+                component={PeriodForm} 
+                onSubmit={setPeriodStart}
+                />
             <Route path="/InitialForm/Duration" 
-                   render = {() => (<DurationForm onSubmit={setPeriodDuration}/>) } />
+                component={DurationForm}
+                onSubmit={setPeriodDuration}
+                />
             <Route 
-                path = "/InitialForm/Cycle"
-                render = {() => (<CycleForm onSubmit={setCycleLen}/>) } />
+                path = "/InitialForm/CycleForm"
+                component={CycleForm}
+                onSubmit={setCycleLen}
+                /> 
         </View>
     );
 
@@ -36,8 +42,10 @@ const styles = StyleSheet.create({
 
     container:{
         flex:1,
-        justifyContent:"center",
-        alignItems:"center"
+        alignItems:'center',
+        justifyContent:"space-between",
+        paddingTop:30,
+        paddingBottom:30,
     }
 
 })
