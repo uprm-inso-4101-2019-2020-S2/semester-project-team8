@@ -3,12 +3,10 @@ import { StyleSheet, TouchableOpacity, Image,  Text} from  'react-native';
 import {MID_BLUE} from '../../styles/colors'
 
 
-const SignInGoogle = (props:any) => {
+const SignInGoogle = ({ onPress }) => (
 
-
-    return (
       <TouchableOpacity 
-        
+        onPress={()=>{onPress()}}
         style={styles.GooglePlusStyle} activeOpacity={0.5}>
  
             <Image 
@@ -18,9 +16,8 @@ const SignInGoogle = (props:any) => {
             <Text style={styles.TextStyle}> Login with Google </Text>
             
       </TouchableOpacity>
-    );
-
-}
+    
+);
 
 
 const styles = StyleSheet.create({

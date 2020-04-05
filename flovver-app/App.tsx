@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { NativeRouter, Switch, Route } from 'react-router-native';
 
+import Store from './store/Store'
+
 import Login from './components/login/Login';
 import InitialForm from './components/initial_forms/InitialForm'
 
 
-export default class App extends Component {
-  render() {
-    return (
-      
+
+const App = () => (
+    <Store>
       <NativeRouter>
-        <Switch>
-          <Route path="/o" component={Login} />
-          <Route path="/" component={InitialForm} />
+        <Switch> 
+          <Route exact path="/" component={Login} />
+          <Route path="/InitialForm/" component={InitialForm} />
         </Switch>
       </NativeRouter>
-      
-    );
-  }
-  
-}
+    </Store>
+)
+
+
+export default App
 

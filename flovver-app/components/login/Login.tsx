@@ -1,49 +1,44 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions,Button} from 'react-native';
-import {LIGHT_GREY} from '../../styles/colors' 
-import SignInGoogle from './SignInGoogle'
+import React, {useState, useContext, useEffect} from 'react';
+import * as Google from 'expo-google-app-auth'
 
-interface Props {
-    placeHolder: String;
+import LoginView from './LoginView'
+import {UserContext} from '../../store/UserContext'
+
+const Login = ({history}) => {
+
+    const [isLoading, setLoading] = useState(false)
+    const [signedIn, setSignedIn] = useContext(UserContext)
+
+    useEffect(() => {
+        if (signedIn){
+            history.push("/InitialForm/")
+        }
+    }, [signedIn]) 
+
+    const signIn = async () => {
+        try {
+            setLoading(true)
+            const result = await Google.logInAsync({
+              androidClientId: "716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com",
+              //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+              scopes: ["profile", "email"]
+            })
+            if (result.type === "cancel") {
+                setLoading(false)
+            }
+            if(result.type === "success"){
+                console.log(result)
+                setSignedIn(true)
+                setLoading(false)
+            }
+        } catch (e) {
+            // TODO: Show Error Modal or message
+            setLoading(false)
+        }
+    } 
+
+    return <LoginView isLoading={isLoading} onPress={signIn} />
+    
 };
-
-const Login = (props: Props) => {
-    return (
-        <View style={styles.container} >
-            <Image 
-                resizeMode="contain"
-                style = {styles.image}
-                source={require('../../images/FlovverLogo.png')} />
-
-            <SignInGoogle />
-            <Text 
-                style={styles.consent}>
-                By signing up for Flovver you agree to our Terms of {"\n"} Service. 
-                Learn about how we process and use your data {"\n"} in our Privacy Policy 
-                and how we use cookies and {"\n"} similar technology in our Cookies Policy.
-            </Text>
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    "container":{
-        flex:1,
-        justifyContent: 'center',
-        alignItems:'center',
-        fontFamily:'Lato'
-    },
-    "image":{
-        width: Dimensions.get("window").width * 0.7,
-        height: 200
-    },
-    "consent":{
-        textAlign:'center',
-        fontSize:10,
-        color:LIGHT_GREY,
-        marginTop:8
-    }
-})
-
 
 export default Login;

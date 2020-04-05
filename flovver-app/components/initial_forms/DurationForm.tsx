@@ -3,22 +3,23 @@ import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
 import * as COLORS from '../../styles/colors'
 import Next from './Shared/Next'
 import ScrollPicker from './ScrollPicker'
+import BackArrow from './Shared/BackArrow'
 
 
-const DurationForm = ({ history }) => {
+const DurationForm = ({ history, onSubmit, periodDuration }) => {
     const items = Array.from(Array(20).keys(), x => (x + 1).toString() )
     return (
         <React.Fragment>
             <View 
-                style={{marginTop:10}}
+                style={{marginTop:10, alignSelf:"stretch"}}
             >
-                <Image 
-                    style={styles.backArrow}
-                    source={require('../../images/ArrowIcon.png')} />
+                <BackArrow onPress={()=>history.push("/InitialForm/Period")} />
                 <Text style={styles.title}>How long does your {"\n"} period usually last?</Text>
             </View>
             <ScrollPicker 
                 items={items}
+                onSubmit={onSubmit}
+                value={periodDuration}
             />
             <View>
                 <Text style={styles.informationText}>Period length is measured from the {"\n"} 

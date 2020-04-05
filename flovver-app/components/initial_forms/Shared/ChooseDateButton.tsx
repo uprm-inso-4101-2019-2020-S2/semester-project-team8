@@ -1,13 +1,9 @@
 import React from 'react'
 import {PINK} from '../../../styles/colors'
 import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native'
-import buttonStyle from './ButtonStyle'
 
 
-const ChooseDateButton = ({ onPress }) => {
-
-
-    return (
+const ChooseDateButton = ({ onPress }) => (
         <TouchableOpacity style={styles.button}
             onPress={() => onPress()}
         >
@@ -15,8 +11,7 @@ const ChooseDateButton = ({ onPress }) => {
             source={require("../../../images/Calendar-Icon.png")} />
             <Text style={styles.textStyle}>CHOOSE DATE</Text>
         </TouchableOpacity>
-    );
-}
+)
 
 const styles = StyleSheet.create({
     button :{

@@ -5,17 +5,22 @@ import {DARK_BLUE, PINK} from '../../styles/colors'
 import Next from './Shared/Next'
 import ChooseDateButton from './Shared/ChooseDateButton'
 
-const PeriodForm = ({history}) => {
+const PeriodForm = ({history, periodStart, onSubmit}) => {
 
-    const [date, setDate] = useState(new Date(1598051730000))
     const [show, setShow] = useState(false)
 
     const onChange = (event, selectedDate) => {
         setShow(false)
-        const currentDate = selectedDate  || date;
-        setDate(currentDate);
+        const currentDate = selectedDate  || periodStart;
+        onSubmit(currentDate);
     };
 
+    const getDate = () => {
+        const dd = String(periodStart.getDate()).padStart(2, '0');
+        const mm = String(periodStart.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = periodStart.getFullYear();
+        return mm + '-' + dd + '-' + yyyy;
+    }
 
     return (
         <React.Fragment>
@@ -24,11 +29,11 @@ const PeriodForm = ({history}) => {
                 <ChooseDateButton 
                     onPress={()=>{setShow(true)}}
                 />
-                <Text style={{textAlign:'center', marginTop:10}} >{date.getMonth()}-{date.getDay()}-{date.getFullYear()}</Text>
+                <Text style={{textAlign:'center', marginTop:10}} >{getDate()}</Text>
             </View>
             {show &&
                <DateTimePicker 
-                value={date}
+                value={periodStart}
                 onChange = {onChange}
                 style={{backgroundColor:PINK}}
                />

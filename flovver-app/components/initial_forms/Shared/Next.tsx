@@ -1,23 +1,14 @@
 import React from 'react'
 import {PINK} from '../../../styles/colors'
 import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native'
-import buttonStyle from './ButtonStyle'
 
-
-
-
-const Next = ({ onPress }) => {
-
-
-    return (
+const Next = ({ onPress }) => (
         <TouchableOpacity style={styles.button}
             onPress={() => onPress()}
         >
             <Text style={styles.textStyle}>NEXT</Text>
         </TouchableOpacity>
-    );
-
-}
+)
 
 const styles = StyleSheet.create({
     button :{

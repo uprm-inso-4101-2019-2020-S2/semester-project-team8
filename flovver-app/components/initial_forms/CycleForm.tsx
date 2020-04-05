@@ -3,22 +3,25 @@ import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
 import * as COLORS from '../../styles/colors'
 import Next from './Shared/Next'
 import ScrollPicker from './ScrollPicker'
+import BackArrow from './Shared/BackArrow'
 
-const CycleForm = ({ history }) => {
+const CycleForm = ({ history, onSubmit, cycleLen }) => {
 
     const items = Array.from(Array(80).keys(), x => (x + 10).toString() )
     return (
         <React.Fragment>
             <View
-                style={{marginTop:10}}
+                style={{marginTop:10, alignSelf:"stretch"}}
             >
-                <Image 
-                    style={styles.backArrow}
-                    source={require('../../images/ArrowIcon.png')} />
+                <BackArrow onPress={()=>{history.push("/InitialForm/Duration")}} />
                 <Text style={styles.title}>How long is your {"\n"} typical cycle?</Text>
             </View>
 
-            <ScrollPicker items={items} />
+            <ScrollPicker 
+                items={items}
+                value={cycleLen}
+                onSubmit={onSubmit}
+            />
 
             <View>
                 <Text style={styles.informationText}>Period length is measured from the {"\n"} 
