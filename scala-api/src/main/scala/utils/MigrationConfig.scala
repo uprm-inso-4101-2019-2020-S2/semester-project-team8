@@ -7,11 +7,11 @@ trait MigrationConfig extends Config{
   private val flyway = new Flyway()
   flyway.setDataSource(databaseUrl, databaseUser, databasePassword)
 
-  def migrate:Int = {
+  def migrate() = {
     flyway.migrate()
   }
 
-  def reloadSchema:Int = {
+  def reloadSchema() = {
     flyway.clean()
     flyway.migrate()
   }
