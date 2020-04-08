@@ -16,23 +16,24 @@ object GoogleSignIn {
   private lazy val httpTransport = new NetHttpTransport()
   private lazy val jsonFactory = new JacksonFactory()
 
-  def readIdToken(id_token:String): String = {
+  def readIdToken(id_token:String): (String, Long) = {
 
     val verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
       .setAudience(Collections.singletonList(sys.env("CLIENT_ID")))
       .build()
 
     val idToken = verifier.verify(id_token)
+
     if (idToken != null) {
       val payload = idToken.getPayload
       try{
-         Await.result(UserDao.findByEmail(email = payload.getEmail), 3000 millis)
-         return payload.getEmail
+         val user = Await.result(UserDao.findByEmail(email = payload.getEmail), 3000 millis)
+         return ( user.email, user.id.get )
       }catch{
         case e: NoSuchElementException =>
-            val u = Users(email = payload.getEmail, id=null, isRegular=false)
-            Await.result(UserDao.create(u), 3000 millis)
-            return payload.getEmail
+            val u:Users = Users(email = payload.getEmail, id=None, isRegular=true)
+            val id = Await.result(UserDao.create(u), 3000 millis)
+            return ( payload.getEmail, id )
       }
     }
     

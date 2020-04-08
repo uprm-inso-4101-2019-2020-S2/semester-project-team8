@@ -1,6 +1,6 @@
-import React, {useState} from  'react'
-import {ScrollView, View, Text, Picker, StyleSheet} from 'react-native'
-import {PINK, LIGHT_GREY, LIGHT_BLUE} from '../../styles/colors'
+import React from  'react'
+import {View, Picker, StyleSheet} from 'react-native'
+import {PINK} from '../../../styles/colors'
 
 
 

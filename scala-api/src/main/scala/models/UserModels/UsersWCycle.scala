@@ -5,5 +5,5 @@ import models.MenstrualCycleModels.MenstrualCycle
 case class UsersWCycle (
     id: Option[Long],
     email: String,
-    cycle: MenstrualCycle
+    cycle: Seq[MenstrualCycle]
 );

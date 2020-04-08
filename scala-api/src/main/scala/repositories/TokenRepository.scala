@@ -13,9 +13,10 @@ trait TokenRepository {
   protected val secretKey:String = sys.env("SECRET_KEY")
   protected val header:JwtHeader = JwtHeader("HS256")
 
-  protected def setClaims(email: String, expirePeriodInDays: Long): JwtClaimsSetMap =
+  protected def setClaims(email: String,id: Option[Long], expirePeriodInDays: Long): JwtClaimsSetMap =
     JwtClaimsSet(
       Map("email" -> email,
+        "id" -> id.getOrElse("").toString ,
         "expiredAt" -> (System.currentTimeMillis() + TimeUnit.DAYS
           .toMillis(expirePeriodInDays)).toString)
     )

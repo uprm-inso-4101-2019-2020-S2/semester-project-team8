@@ -7,9 +7,9 @@ import DurationForm from './DurationForm'
 import CycleForm from './CycleForm'
 
 
-const InitialFormView = ({periodStart, 
-    setPeriodStart, periodDuration, 
-    setPeriodDuration, cycleLen, setCycleLen}) => (
+const InitialFormView = ({periodStart, setPeriodStart, 
+    periodDuration, setPeriodDuration, 
+    cycleLen, setCycleLen}) => (
         <View style={styles.container} >
             <Route 
                 path = "/InitialForm/Period"

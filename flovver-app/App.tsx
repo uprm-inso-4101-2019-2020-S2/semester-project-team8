@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React from 'react';
 import { NativeRouter, Switch, Route } from 'react-router-native';
 
 import Store from './store/Store'
 
 import Login from './components/login/Login';
 import InitialForm from './components/initial_forms/InitialForm'
-
 
 
 const App = () => (

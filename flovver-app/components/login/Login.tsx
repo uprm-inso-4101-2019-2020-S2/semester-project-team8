@@ -3,6 +3,8 @@ import * as Google from 'expo-google-app-auth'
 
 import LoginView from './LoginView'
 import {UserContext} from '../../store/UserContext'
+import * as backend from '../../backend_requests/user'
+
 
 const Login = ({history}) => {
 
@@ -27,7 +29,7 @@ const Login = ({history}) => {
                 setLoading(false)
             }
             if(result.type === "success"){
-                console.log(result)
+                console.log(await backend.getTokenAsync(result.idToken))
                 setSignedIn(true)
                 setLoading(false)
             }
@@ -36,6 +38,7 @@ const Login = ({history}) => {
             setLoading(false)
         }
     } 
+
 
     return <LoginView isLoading={isLoading} onPress={signIn} />
     
