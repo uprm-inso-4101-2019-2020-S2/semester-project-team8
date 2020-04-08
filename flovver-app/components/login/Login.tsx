@@ -13,7 +13,7 @@ const Login = ({history}) => {
 
     useEffect(() => {
         if (signedIn){
-            history.push("/InitialForm/")
+            history.push("/Home")
         }
     }, [signedIn]) 
 

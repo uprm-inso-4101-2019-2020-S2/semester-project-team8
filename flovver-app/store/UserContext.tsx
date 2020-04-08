@@ -56,7 +56,7 @@ const UserProvider = ({children}) => {
         // If not in secure store leave everything with default values
 
     return (
-        <UserContext.Provider value={[user, setUser, signedIn, setSignedIn]}  >
+        <UserContext.Provider value={[signedIn, setSignedIn, user, setUser]}  >
             {children}
         </UserContext.Provider>
     )

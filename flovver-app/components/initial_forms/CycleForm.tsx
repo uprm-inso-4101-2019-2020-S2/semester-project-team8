@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import * as COLORS from '../../styles/colors'
 import Next from './Shared/Next'
-import ScrollPicker from './ScrollPicker'
+import ScrollPicker from './Shared/ScrollPicker'
 import BackArrow from './Shared/BackArrow'
 
 const CycleForm = ({ history, onSubmit, cycleLen }) => {
