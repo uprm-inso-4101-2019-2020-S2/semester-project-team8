@@ -36,15 +36,17 @@ const styles = StyleSheet.create({
     title:{
         fontSize:35,
         textAlign:"center",
-        fontWeight:"bold",
+        
         color:COLORS.DARK_BLUE,
-        marginTop:10
+        marginTop:10,
+        fontFamily:"lato-black"
     },
     informationText:{
         textAlign:"center",
         fontSize:12,
         marginBottom:10,
-        color: COLORS.LIGHT_GREY
+        color: COLORS.LIGHT_GREY,
+        
     },
     backArrow:{
         height:20,

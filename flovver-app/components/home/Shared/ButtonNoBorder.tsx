@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
         height: 90,
         width: 90,
         position:"relative",
-        top:-50
+        top:-50,
+        elevation:1
     },
 
     flovverImage:{

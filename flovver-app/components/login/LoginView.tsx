@@ -1,7 +1,9 @@
 import React from 'react'
-import {View, Text, StyleSheet, Image, Dimensions, Button, ActivityIndicator} from 'react-native';
-import {LIGHT_GREY, PINK} from '../../styles/colors' 
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 
+import { LIGHT_GREY, PINK } from '../../styles/colors' 
+
+import Loading from '../shared/Loading'
 import SignInGoogle from './SignInGoogle'
 
 const LoginView = ({isLoading, onPress}) => (
@@ -22,13 +24,7 @@ const LoginView = ({isLoading, onPress}) => (
                 </Text>
         </View>
     ):(
-        <View style={styles.container}>
-            <Image 
-                    resizeMode="contain"
-                    style = {styles.image}
-                    source={require('../../images/FlovverLogo.png')} />
-            <ActivityIndicator size="large" color={PINK} />
-        </View>
+        <Loading />   
     )
 )
 
@@ -48,7 +44,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:10,
         color:LIGHT_GREY,
-        marginTop:8
+        marginTop:8,
     }
 })
 

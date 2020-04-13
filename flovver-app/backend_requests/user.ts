@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { HOST } from '../constants'
+import { HOST } from './constants'
 
-// Gets token from backend server returns token or null if it failed
 export const getTokenAsync = async (id_token:string) =>  (
     axios.post(
         HOST + "token",
@@ -12,4 +11,27 @@ export const getTokenAsync = async (id_token:string) =>  (
     )).catch( e => null )
 )
 
+export const menstrualInit = async (token:string, menstrual_init) => {
+    return axios.post(
+        HOST + "menstrual_init",
+        menstrual_init,
+        { 
+          headers: { "Authorization":token, "content-type":"application/json" },
+          timeout:2000
+        }
+    ).then(res => res.data )
+    .catch( e => e.response )
+}
 
+
+export const getUserAsync = async (token:string) => {
+    return axios.get(
+        HOST + "user",
+        {
+            headers: { "Authorization":token }
+        }
+    ).then(res => (
+        res.data
+    ))
+    .catch(e => e.response)
+}

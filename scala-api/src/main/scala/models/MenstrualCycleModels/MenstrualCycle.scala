@@ -8,4 +8,4 @@ case class MenstrualCycle(
                 end_date:Option[Date],
                 bleed_start:Date,
                 bleed_end:Date
-                )
+               )

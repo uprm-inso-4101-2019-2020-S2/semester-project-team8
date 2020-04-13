@@ -5,7 +5,7 @@ import Next from './Shared/Next'
 import ScrollPicker from './Shared/ScrollPicker'
 import BackArrow from './Shared/BackArrow'
 
-const CycleForm = ({ history, onSubmit, cycleLen }) => {
+const CycleForm = ({ history, onSubmit, cycleLen, sendInit }) => {
 
     const items = Array.from(Array(80).keys(), x => (x + 10).toString() )
     return (
@@ -26,7 +26,7 @@ const CycleForm = ({ history, onSubmit, cycleLen }) => {
             <View>
                 <Text style={styles.informationText}>Period length is measured from the {"\n"} 
                             first to the last day of bleeding</Text>
-                <Next onPress={()=>{history.push("/InitialForm/CycleForm")}} />
+                <Next onPress={()=>{sendInit()}} />
             </View>
 
         </React.Fragment>
@@ -39,15 +39,17 @@ const styles = StyleSheet.create({
     title:{
         fontSize:35,
         textAlign:"center",
-        fontWeight:"bold",
+        
         color:COLORS.DARK_BLUE,
-        marginTop:10
+        marginTop:10,
+        fontFamily:"lato-black"
     },
     informationText:{
         textAlign:"center",
         fontSize:12,
         marginBottom:10,
-        color: COLORS.LIGHT_GREY
+        color: COLORS.LIGHT_GREY,
+        
     },
     backArrow:{
         height:20,

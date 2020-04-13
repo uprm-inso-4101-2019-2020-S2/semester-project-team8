@@ -4,7 +4,6 @@ import {MID_BLUE} from '../../styles/colors'
 
 
 const SignInGoogle = ({ onPress }) => (
-
       <TouchableOpacity 
         onPress={()=>{onPress()}}
         style={styles.GooglePlusStyle} activeOpacity={0.5}>
@@ -46,8 +45,8 @@ const styles = StyleSheet.create({
         color: "#fff",
         marginBottom : 4,
         fontSize:15,
-
     }
+
 })
 
 export default SignInGoogle

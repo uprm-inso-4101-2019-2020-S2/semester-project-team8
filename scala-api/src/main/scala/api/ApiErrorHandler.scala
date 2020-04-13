@@ -11,9 +11,9 @@ trait ApiErrorHandler {
       extractUri { uri =>
         complete(HttpResponse(NotFound, entity = s"Invalid id: ${e.getMessage}"))
       }
-    case e: java.lang.IllegalArgumentException =>
-      extractUri { uri =>
-        complete(HttpResponse(BadRequest, entity = s"Request Was Malformed check id_token, or other attribute uri=${uri.toString}"))
-      }
+//    case e: java.lang.IllegalArgumentException =>
+//      extractUri { uri =>
+//        complete(HttpResponse(BadRequest, entity = s"Request Was Malformed check id_token, or other attribute uri=${uri.toString}"))
+//      }
   }
 }

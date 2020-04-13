@@ -8,7 +8,7 @@ import utils.{DatabaseConfig, MigrationConfig}
 
 import scala.concurrent.ExecutionContext
 
-object Main extends App with ApiErrorHandler with MigrationConfig with DatabaseConfig with Routes {
+object Main extends App with MigrationConfig with DatabaseConfig with Routes {
 
   private implicit val system = ActorSystem()
   protected implicit val executor: ExecutionContext = system.dispatcher

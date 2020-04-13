@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
    title:{
        fontSize:40,
        textAlign:"center",
-       fontWeight:"bold",
+       fontFamily:"lato-black",
        color:DARK_BLUE
    }
 

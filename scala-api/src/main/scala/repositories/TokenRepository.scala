@@ -36,7 +36,7 @@ trait TokenRepository {
       case Some(jwt) if JsonWebToken.validate(jwt, secretKey) =>
         provide(getClaims(jwt))
 
-      case _ => complete(StatusCodes.BadRequest)
+      case _ => complete(StatusCodes.Forbidden)
     }
 
 }

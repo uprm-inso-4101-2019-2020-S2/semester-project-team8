@@ -7,34 +7,39 @@ import DurationForm from './DurationForm'
 import CycleForm from './CycleForm'
 
 
+
+
 const InitialFormView = ({periodStart, setPeriodStart, 
     periodDuration, setPeriodDuration, 
-    cycleLen, setCycleLen}) => (
+    cycleLen, setCycleLen, sendInit}) => (
         <View style={styles.container} >
-            <Route 
-                path = "/InitialForm/Period"
-                render={(props)=> <PeriodForm  
-                    {...props}
-                    onSubmit={setPeriodStart}
-                    periodStart={periodStart}
+            
+                <Route 
+                    path = "/InitialForm/Period"
+                    render={(props)=> <PeriodForm  
+                        {...props}
+                        onSubmit={setPeriodStart}
+                        periodStart={periodStart}
 
-                /> }
-            />
-            <Route path="/InitialForm/Duration" 
-                render={(props) => <DurationForm 
-                    {...props}
-                    onSubmit={setPeriodDuration}
-                    periodDuration={periodDuration}
-                />}
-            />
-            <Route 
-                path = "/InitialForm/CycleForm"
-                render={(props) => <CycleForm 
-                    {...props}
-                    onSubmit={setCycleLen}
-                    cycleLen={cycleLen}
-                />}
-            /> 
+                    /> }
+                />
+                <Route path="/InitialForm/Duration" 
+                    render={(props) => <DurationForm 
+                        {...props}
+                        onSubmit={setPeriodDuration}
+                        periodDuration={periodDuration}
+                    />}
+                />
+                <Route 
+                    path = "/InitialForm/CycleForm"
+                    render={(props) => <CycleForm 
+                        {...props}
+                        onSubmit={setCycleLen}
+                        cycleLen={cycleLen}
+                        sendInit={sendInit}
+                    />}
+                /> 
+            
         </View>
 )
 
