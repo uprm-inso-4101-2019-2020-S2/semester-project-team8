@@ -8,11 +8,10 @@ class MenstrualCycleTable(tag:Tag) extends Table[MenstrualCycle](tag, "menstrual
   
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def calendar_id = column[Long]("calendar_id")
-  def start_date = column[Date]("start_date")
   def end_date = column[Date]("end_date")
   def bleed_start = column[Date]("bleed_start")
   def bleed_end = column[Date]("bleed_end")
   def * =
-    (id.?, calendar_id.?, start_date.?, end_date.?, bleed_start, bleed_end) <> ((MenstrualCycle.apply _).tupled,MenstrualCycle.unapply)
+    (id.?, calendar_id.?, end_date.?, bleed_start, bleed_end) <> ((MenstrualCycle.apply _).tupled,MenstrualCycle.unapply)
 
 }

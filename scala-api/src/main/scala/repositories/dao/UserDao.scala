@@ -30,7 +30,7 @@ object UserDao extends BaseDao {
     val query2 =  for {
 
       ( (u ,c) , m) <-
-      query1 joinLeft menstrualTable.sortBy(_.start_date.desc) on (
+      query1 joinLeft menstrualTable.sortBy(_.bleed_start.desc) on (
         _._2.id === _.calendar_id) take 2
 
     } yield (u, m)
@@ -39,7 +39,7 @@ object UserDao extends BaseDao {
       .map( value =>  {
         val first:(Users, Option[MenstrualCycle]) = value.head
 
-        UsersWCycle(email=first._1.email, id=first._1.id, cycle={
+        UsersWCycle(email=first._1.email, id=first._1.id, cycle_avg=first._1.cycle_avg,  cycle={
           value.collect{
             case (u, m) if m.isDefined => m.get
           }

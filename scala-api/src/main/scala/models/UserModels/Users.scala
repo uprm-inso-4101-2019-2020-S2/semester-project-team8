@@ -4,4 +4,5 @@ case class Users(
                 id:Option[Long],
                 email:String,
                 isRegular:Boolean,
+                cycle_avg:Int
                 )

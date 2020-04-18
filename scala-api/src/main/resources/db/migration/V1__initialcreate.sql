@@ -31,7 +31,6 @@ CREATE TABLE "shared_users" (
 CREATE TABLE "menstrual_cycle" (
   "id" SERIAL NOT NULL,
   "calendar_id" SERIAL NOT NULL,
-  "start_date" date NOT NULL,
   "end_date" date NOT NULL,
   "bleed_start" date NOT NULL,
   "bleed_end" date NOT NULL,

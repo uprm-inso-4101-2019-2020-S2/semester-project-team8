@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {DARK_BLUE, PINK} from '../../styles/colors'
 import Next from './Shared/Next'
 import ChooseDateButton from './Shared/ChooseDateButton'
+import { getDate } from '../shared/SharedMethods'
 
 const PeriodForm = ({history, periodStart, onSubmit}) => {
 
@@ -15,13 +16,6 @@ const PeriodForm = ({history, periodStart, onSubmit}) => {
         onSubmit(currentDate);
     };
 
-    const getDate = () => {
-        const dd = String(periodStart.getDate()).padStart(2, '0');
-        const mm = String(periodStart.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = periodStart.getFullYear();
-        return mm + '-' + dd + '-' + yyyy;
-    }
-
     return (
         <React.Fragment>
             <Text style={styles.title} >When did your last {"\n"} period start?</Text>
@@ -29,7 +23,7 @@ const PeriodForm = ({history, periodStart, onSubmit}) => {
                 <ChooseDateButton 
                     onPress={()=>{setShow(true)}}
                 />
-                <Text style={{textAlign:'center', marginTop:10}} >{getDate()}</Text>
+                <Text style={{textAlign:'center', marginTop:10}} >{getDate(periodStart)}</Text>
             </View>
             {show &&
                <DateTimePicker 

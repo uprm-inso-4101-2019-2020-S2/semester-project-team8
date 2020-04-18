@@ -13,7 +13,7 @@ export const getTokenAsync = async (id_token:string) =>  (
 
 export const menstrualInit = async (token:string, menstrual_init) => {
     return axios.post(
-        HOST + "menstrual_init",
+        HOST + "menstrual/init",
         menstrual_init,
         { 
           headers: { "Authorization":token, "content-type":"application/json" },

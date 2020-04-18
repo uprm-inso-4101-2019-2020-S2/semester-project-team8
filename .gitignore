@@ -403,5 +403,5 @@ project/plugins/project/
 
 ### Scala ###
 *.metals
-
+.idea/
 # End of https://www.gitignore.io/api/sbt,code,scala,intellij,reactnative

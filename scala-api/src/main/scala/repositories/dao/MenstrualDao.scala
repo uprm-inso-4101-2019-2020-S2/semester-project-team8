@@ -1,10 +1,9 @@
 package repositories.dao
 
-import models.MenstrualCycleModels.{MenstrualCycle, InitialCycle}
+import java.sql.Date
+import java.util.Calendar
 
-import java.util.Calendar;
-import java.sql.Date;
-
+import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -25,6 +24,49 @@ object MenstrualDao extends BaseDao {
 
     }
 
+    def add_period(new_cycle:AddCycle, id:Long) = {
+
+      // TODO: Add user validation before updating
+      db.run( calendarTable.filter(_.owner_id === id).result.head )
+          .flatMap( calendar =>
+            db.run(
+              sqlu"""
+                UPDATE menstrual_cycle
+                SET end_date = ${new Date(addDays(new_cycle.bleed_start, -1))}
+                WHERE end_date = (
+                  SELECT bleed_start FROM menstrual_cycle
+                  WHERE id = ${new_cycle.cycle_id}
+                ) - 1
+                AND calendar_id = ${calendar.id};
+                UPDATE menstrual_cycle
+                      SET bleed_start = ${new_cycle.bleed_start}
+                      WHERE id = ${new_cycle.cycle_id}
+                      AND calendar_id = ${calendar.id};
+                UPDATE users
+                SET cycle_avg = (cycle_avg/2 + (
+                    SELECT DATE_PART('day', (
+                        SELECT end_date FROM
+                            menstrual_cycle 
+                        WHERE end_date = (
+                            SELECT bleed_start FROM menstrual_cycle
+                            WHERE id = ${new_cycle.cycle_id}
+                        ) - 1
+                    )::timestamp - (
+                        SELECT bleed_start FROM
+                            menstrual_cycle
+                        WHERE end_date = (
+                            SELECT bleed_start FROM menstrual_cycle
+                            WHERE id = ${new_cycle.cycle_id}
+                        ) - 1                            
+                    )::timestamp )/2 )  
+                )
+                WHERE id = ${id};
+                """
+            )
+          )
+
+    }
+
     def initialCycle(cycle:InitialCycle, id:Long) = {
 
         // Inital Menstrual Cycle
@@ -35,12 +77,13 @@ object MenstrualDao extends BaseDao {
         val bleed_start_1 = new Date(addDays(end_date, 1))
         val bleed_end_1 = new Date(addDays(bleed_start_1, cycle.bleed_duration - 1))
         val end_date_1 = new Date(addDays(bleed_start_1, cycle.cycle_duration))
-      
+
+        db.run(usersTable.filter(_.id === id).map(_.cycle_avg).update(cycle.cycle_duration))
+
         db.run(calendarTable.filter(_.owner_id === id).result.head)
           .map( calendar => {
               val c1 = MenstrualCycle(
                   id=None,
-                  start_date=Some(cycle.bleed_start),
                   end_date=Some(end_date),
                   bleed_start=cycle.bleed_start,
                   bleed_end=bleed_end,
@@ -48,7 +91,6 @@ object MenstrualDao extends BaseDao {
               )
               val c2 = MenstrualCycle(
                   id=None,
-                  start_date = Some(bleed_start_1),
                   end_date = Some(end_date_1),
                   bleed_start = bleed_start_1,
                   bleed_end = bleed_end_1,
@@ -73,6 +115,8 @@ object MenstrualDao extends BaseDao {
 
         c.getTime.getTime
     }
+
+
 
 }
 

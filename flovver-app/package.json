@@ -14,13 +14,14 @@
     "expo": "~36.0.0",
     "expo-font": "~8.0.0",
     "expo-google-app-auth": "^8.1.0",
+    "moment": "^2.24.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-calendars": "^1.265.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-web": "~0.11.7",
-    "react-router-native": "^5.1.2",
-    "react-router-native-animate-stack": "^1.2.7"
+    "react-router-native": "^5.1.2"
   },
   "devDependencies": {
     "@types/react": "~16.9.0",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeRouter, Switch, Route } from 'react-router-native';
+import { NativeRouter, Switch, Route, Redirect } from 'react-router-native';
 
 
 import Store from './store/Store'
@@ -14,9 +14,10 @@ const App = () => (
       <FontLoad>
         <NativeRouter>
           <Switch> 
-            <Route exact path="/" component={Login} />
+            <Route exact path="/Login" component={Login} />
             <Route path="/InitialForm" component={InitialForm} />
             <Route path="/Home" component={Home} />
+            <Route path="/" render={()=><Redirect to="/Home"/>} />
           </Switch>
         </NativeRouter>
       </FontLoad>
