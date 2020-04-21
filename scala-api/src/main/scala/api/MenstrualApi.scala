@@ -37,6 +37,11 @@ trait MenstrualApi extends TokenRepository with JsonMappings {
               )
           )
         })
+      } ~
+      (path("menstrual") & get){
+        complete(
+          MenstrualDao.findAll(claims("id").toLong).map(_.toJson)
+        )
       }
 
     })

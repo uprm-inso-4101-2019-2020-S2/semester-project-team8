@@ -7,14 +7,10 @@ export const addDays = (days:number, date:Date) => {
     return date;
 }
 
+export const getAcronDateShort = (date) => {
+    return moment.utc(date.toISOString()).format("MMM D")
+}
+
 export const getDate = (date) => {
-    
-    const mom = moment(date)
-
-    const dd = String(date.getDate()).padStart(2, '0');
-    //const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    const mm = date.toLocaleString('default', {month:"short"} )
-    // const yyyy = date.getFullYear();
-    return mm + ' ' + dd;
-
+    return moment.utc(date.toISOString()).format("MMM D, YYYY")
 }

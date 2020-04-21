@@ -7,7 +7,7 @@ import InfoArea from './HomeArea/InfoArea'
 import LatoText from '../shared/LatoText'
 
 import { useMenstrualData } from '../shared/Hooks'
-import { getDate } from '../shared/SharedMethods'
+import { getAcronDateShort } from '../shared/SharedMethods'
 
 const HomeArea = () => {
     
@@ -28,7 +28,7 @@ const HomeArea = () => {
                 <LatoText style={styles.day}>WED, APRIL 3, 2020</LatoText>
                 <CircleArea 
                     nextPeriod={getNextPeriod()}
-                    nextPeriodDate={getDate(new Date(cycleArray[0].bleed_start))}
+                    nextPeriodDate={getAcronDateShort(new Date(cycleArray[0].bleed_start))}
                 />
                 <InfoArea />
             </View>
