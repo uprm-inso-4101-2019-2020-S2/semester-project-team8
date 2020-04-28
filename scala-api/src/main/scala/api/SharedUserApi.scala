@@ -1,0 +1,5 @@
+package api
+
+trait SharedUserApi {
+  
+}

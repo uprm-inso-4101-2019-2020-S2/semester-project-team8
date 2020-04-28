@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 
 import { UserContext } from '../../../store/UserContext'
 import * as actions from '../../../store/actions'
@@ -6,34 +6,40 @@ import * as actions from '../../../store/actions'
 import { useHistory } from 'react-router-native'
 
 import { getUserAsync } from '../../../backend_requests/user'
-import { addDays } from '../SharedMethods'
+import { addDays, diffDays } from '../SharedMethods'
 
 export const useMenstrualData = () => {
 
     const [state, dispatcher] = useContext(UserContext)
-    const [additionalInfo, setAdditionalInfo] = useState([])
 
     useEffect(() => {
         if(state.user){
-            console.log(state.user)
-            const newState = []
             if(state.user){
-                state.user.cycle.map( (cycle) => {
-                    return newState.push({
-                        fertile_start:addDays(10, new Date(cycle.bleed_start)),
-                        fertile_end:addDays(18, new Date(cycle.bleed_start)),
-                        ovulation_date:addDays(14, new Date(cycle.bleed_start))
-                    })
-                })
-                setAdditionalInfo(newState)
+                dispatcher(actions.setUser(calcFertileList(state.user)))
             }
         }
-    }, [])
-
-    return [additionalInfo, state.user.cycle]
+    }, []) 
+ 
+    return [state.user.cycle, state.user.cycleInfo]
 
 }
 
+
+const calcFertileList = (res) => {
+    const newState = [];
+    res.cycle.map( (cycle) => {
+        newState.push({
+            fertile_start:addDays(10, new Date(cycle.bleed_start)),
+            fertile_end:addDays(16, new Date(cycle.bleed_start)),
+            ovulation_date:addDays(diffDays(new Date(cycle.bleed_start), new Date(cycle.end_date))/2, new Date(cycle.bleed_start))
+        })
+        console.log(newState)
+    })
+    return {
+        ...res,
+        cycleInfo:[...newState]
+    }
+}
 
 // Custom hook to tell tell when user has been fetched from backend 
 // Think of adding last updated field to state to see if you have to update user again 
@@ -57,6 +63,7 @@ export const useUser = (isLoading, setIsLoading) => {
                     if (res.cycle.length === 0){
                         history.push("/InitialForm")
                     }else{
+                        dispatcher(actions.setUser(calcFertileList(res)))
                         setIsLoading(false)
                     }
                 } 

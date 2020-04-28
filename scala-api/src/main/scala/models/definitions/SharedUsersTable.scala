@@ -8,7 +8,8 @@ class SharedUsersTable(tag:Tag) extends Table[SharedUsers](tag, "shared_users"){
   def users_id = column[Long]("users_id")
   def calendar_id = column[Long]("calendar_id")
   def isAllowed = column[Boolean]("is_allowed")
+  def approved = column[Boolean]("approved")
   def * =
-    (id.?, users_id.?, calendar_id.?, isAllowed) <> ((SharedUsers.apply _).tupled, SharedUsers.unapply)
+    (id.?, users_id.?, calendar_id.?, isAllowed, approved) <> ((SharedUsers.apply _).tupled, SharedUsers.unapply)
 
 }

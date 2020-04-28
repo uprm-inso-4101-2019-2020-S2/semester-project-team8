@@ -1,27 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+
 import LatoText from '../../shared/LatoText'
 import * as COLORS from '../../../styles/colors'
-import { getDate } from '../../shared/SharedMethods'
+import {getAcronDateShort} from '../../shared/SharedMethods'
 
-const CircleArea = ({nextPeriod, nextPeriodDate}) => {
 
-    return (
-            <View style={styles.circle}>
-                <LatoText style={styles.text}>PERIOD IN</LatoText>
-                <Text style={[styles.text, styles.periodCountDown]}>{nextPeriod} DAYS</Text>
+const CircleArea = ({ displayDay, inPeriod, periodDate, isFertile }) => ( 
+            <View style={styles.circle }>
+                <LatoText style={styles.text}>PERIOD {inPeriod?"ENDS":""} IN</LatoText>
+                <Text style={[styles.text, styles.periodCountDown]}>{displayDay} DAYS</Text>
                 <LatoText
                     style={{
                         marginTop:-5,
                         color:"white",
-                        paddingBottom:10
-                    }}
-                >{nextPeriodDate}</LatoText>
-                <LatoText style={[styles.chanceText, styles.text] }>LOW CHANCE {"\n"} OF GETTING PREGNANT</LatoText>
+                        paddingBottom:10,
+                    }} 
+                >{getAcronDateShort(periodDate).toUpperCase()}</LatoText>
+                <LatoText style={[styles.chanceText, styles.text] }>{isFertile?"HIGH":"LOW"} CHANCE {"\n"} OF GETTING PREGNANT</LatoText>
             </View>
         )
-    
-}
 
 
 const styles = StyleSheet.create({

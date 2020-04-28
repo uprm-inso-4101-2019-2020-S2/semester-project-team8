@@ -8,7 +8,7 @@ const UserProvider = ({children}) => {
     const [state, dispatcher] = React.useReducer(reducer, {
         user:null,
         token:null,
-        isSignedIn:false    
+        isSignedIn:false,    
     })
 
     // In useEffect:

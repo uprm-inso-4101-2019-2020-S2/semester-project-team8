@@ -2,8 +2,7 @@ package repositories.dao
 
 import java.sql.Date
 import java.util.Calendar
-
-import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle}
+import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle, UpdateCycle}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,10 +15,15 @@ object MenstrualDao extends BaseDao {
     def findById(id:Long) = {}
 
     def findAll(id:Long):Future[Seq[MenstrualCycle]] = {
-      db.run( calendarTable.filter(_.owner_id === id).result.head )
-        .flatMap( calendar =>
-          db.run( menstrualTable.filter(_.calendar_id === calendar.id ).sortBy(_.bleed_start.desc).result)
-        )
+      // db.run( calendarTable.filter(_.owner_id === id).result.head )
+      //   .flatMap( calendar =>
+      //     db.run( menstrualTable.filter(_.calendar_id === calendar.id ).sortBy(_.bleed_start.desc).result)
+      //   )
+      db.run(sql"""
+        SELECT m.id, m.calendar_id, m.end_date, m.bleed_start, m.bleed_end FROM
+        menstrual_cycle m JOIN calendar c ON m.calendar_id = c.id
+        WHERE c.owner_id = ${id};
+      """.as[MenstrualCycle] )
     }
 
     def findMostRecent(n:Int, skip:Int) = {}
@@ -30,8 +34,41 @@ object MenstrualDao extends BaseDao {
 
     }
 
-    def update_cycle() = {
+    // DESIGN FIRST --------
+    def update_cycle(new_data:UpdateCycle, user_id:Long):Future[Int] = {
+      if ( new_data.bleed_end.isDefined && !new_data.bleed_start.isDefined ) {
+        db.run(sqlu"""
+          UPDATE menstrual_cycle
+          SET bleed_end = ${new_data.bleed_end.get}
+          WHERE id = ${new_data.cycle_id};
+          -- ADD VERIFY CALENDAR OWNER  --  
+        """)
+      } 
+      
+      else if(  !new_data.bleed_end.isDefined && new_data.bleed_start.isDefined ) {
+        db.run(sqlu"""
 
+          WITH nbs AS (SELECT ${new_data.bleed_start.get}::date as bleeding)
+
+          UPDATE menstrual_cycle
+          SET end_date = (SELECT bleeding FROM nbs) - 1 * interval '1 day'
+          WHERE end_date = (
+            SELECT bleed_start - 1 * interval '1 day' 
+              FROM menstrual_cycle 
+              WHERE id = ${new_data.cycle_id}
+          );
+
+          UPDATE menstrual_cycle 
+          SET bleed_start = ${new_data.bleed_start.get}
+          WHERE id=${new_data.cycle_id};
+
+        """)
+      }else{
+        Future { 0 }
+      }
+
+
+      
     }
 
     def add_prediction() = {
@@ -101,7 +138,32 @@ object MenstrualDao extends BaseDao {
                 )
                 WHERE id = ${id};
 
+                WITH mjoinu AS (SELECT *
+                    FROM menstrual_cycle as m 
+                    JOIN calendar as c on m.calendar_id = c.id
+                    JOIN users as u on u.id = c.owner_id
+                  WHERE u.id = ${id}
+                  AND m.id = ${new_cycle.cycle_id} )
+
                 -- CHANGE THE BLEED_START, BLEED_END, END_DATE to correct values of next cycle
+                UPDATE menstrual_cycle
+                SET bleed_start = (
+                  SELECT bleed_start + cycle_avg * interval '1 day'
+                    FROM mjoinu
+                ),
+                bleed_end = (
+                  SELECT bleed_end + cycle_avg * interval '1 day'
+                    FROM mjoinu
+                ),
+                end_date = (
+                  SELECT bleed_start + (2 * cycle_avg - 1) * interval '1 day'
+                    FROM mjoinu
+                )
+                WHERE bleed_start = (
+                  SELECT end_date + 1 * interval '1 day' FROM mjoinu
+                )
+                AND calendar_id = ${calendar.id};
+
 
                 -- CHANGE THE END DATE OF THE CURRENT CYCLE TO BLEED_START + AVG
                 UPDATE menstrual_cycle

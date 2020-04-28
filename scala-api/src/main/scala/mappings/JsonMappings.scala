@@ -1,7 +1,7 @@
 package mappings
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle, MenstrualOptional}
+import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle, MenstrualOptional, UpdateCycle}
 import models.UserModels.{Users, UsersWCycle}
 import spray.json.DefaultJsonProtocol
 
@@ -15,6 +15,8 @@ trait JsonMappings extends SprayJsonSupport with DefaultJsonProtocol with DateMa
   implicit val menstrualCycle = jsonFormat5(MenstrualCycle)
 
   implicit val menstrualReduce = jsonFormat5(MenstrualOptional)
+
+  implicit val updateCycleFormat = jsonFormat3(UpdateCycle)
 
   implicit val initialCycle = jsonFormat3(InitialCycle)
 

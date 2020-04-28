@@ -7,10 +7,18 @@ export const addDays = (days:number, date:Date) => {
     return date;
 }
 
+export const diffDays = (date1:Date, date2:Date) => {
+    let a = moment.utc(date2.toISOString())
+    let b = moment.utc(date1.toISOString())
+
+    return b.diff(a, 'days')
+}
+
 export const getAcronDateShort = (date) => {
     return moment.utc(date.toISOString()).format("MMM D")
 }
 
 export const getDate = (date) => {
-    return moment.utc(date.toISOString()).format("MMM D, YYYY")
+    console.log(date.toISOString())
+    return moment.utc(date.toISOString().split("T")[0]).format("MMM D, YYYY")
 }

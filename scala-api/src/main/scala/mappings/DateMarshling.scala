@@ -16,6 +16,7 @@ trait DateMarshling {
       case JsString(rawDate) =>
         Some(parseIsoDateString(rawDate))
           .fold(deserializationError(s"Expected ISO Date format, got $rawDate"))(identity)
+      case JsNull => None
       case error => deserializationError(s"Expected JsString, got $error")
     }
   }

@@ -32,7 +32,7 @@ const InitialForm = ( { history } ) => {
             if(res && res.status != 400){
                 dispatcher(actions.setUser(res));
                 setIsLoading(false)
-                history.push("/Home")
+                history.push("/Home/Index")
             }else{ throw "An error ocurred" } 
         }).catch(e => {})
     }

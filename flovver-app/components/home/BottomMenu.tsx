@@ -4,24 +4,26 @@ import * as COLORS from '../../styles/colors'
 import ButtonNoBorder from './Shared/ButtonNoBorder'
 import ButtonBorder from './Shared/ButtonBorder'
 
-const BottomMenu = () => (
-    <View style={styles.bottomMenu}>
-        <ButtonNoBorder 
-            onPress={()=>{console.log("Hello World")}}
-            isGear={true}
-            isFlovver={false}
-        />
-        <ButtonBorder 
-            onPress={()=>{console.log("Hello World")}}
-        />
-        <ButtonNoBorder 
-            onPress={()=>{console.log("Hello World")}}
-            isGear={false}
-            isFlovver={false}
-        />
-    </View>
-)
+const BottomMenu = ({history}) => {
 
+    return (
+        <View style={styles.bottomMenu}>
+            <ButtonNoBorder 
+                onPress={()=>{console.log("Hello World")}}
+                isGear={true}
+                isFlovver={false}
+            />
+            <ButtonBorder 
+                onPress={()=>{history.push("/Home/Calendar")}}
+            />
+            <ButtonNoBorder 
+                onPress={()=>{console.log("Hello World")}}
+                isGear={false}
+                isFlovver={false}
+            />
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
 

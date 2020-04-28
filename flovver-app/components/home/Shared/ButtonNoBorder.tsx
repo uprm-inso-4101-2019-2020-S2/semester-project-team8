@@ -6,7 +6,7 @@ const ButtonNoBorder = ({ onPress, isGear, isFlovver }) => {
         
         if(isFlovver){
             return (
-                <TouchableOpacity style={[styles.button,styles.flovverButton]}
+                <TouchableOpacity style={[styles.flovverButton, styles.button]}
                     onPress={() => onPress()}
                 >
                     <Image 

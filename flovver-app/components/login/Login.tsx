@@ -14,7 +14,7 @@ const Login = ({history}) => {
 
     useEffect(() => {
         if (state.isSignedIn){
-            history.push("/Home")
+            history.push("/Home/Index")
         }
     }, [state.isSignedIn]) 
 

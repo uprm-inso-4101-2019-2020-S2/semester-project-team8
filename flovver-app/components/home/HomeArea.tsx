@@ -1,36 +1,119 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet, ActivityIndicator } from 'react-native'
 
 import CircleArea from './HomeArea/CircleArea'
 import InfoArea from './HomeArea/InfoArea'
-
 import LatoText from '../shared/LatoText'
 
 import { useMenstrualData } from '../shared/Hooks'
-import { getAcronDateShort } from '../shared/SharedMethods'
+import * as COLORS from '../../styles/colors'
+
+import moment from 'moment'
 
 const HomeArea = () => {
     
-    const [menstrualData, cycleArray] = useMenstrualData()
+    const [cycleArray, cycleInfo] = useMenstrualData()
+    const [displayDay, setDisplayDay] = useState(0)
+    const [inPeriod, setInPeriod] = useState(false)
+    const [periodDate, setPeriodDate] = useState(new Date())
+    const [isFertile, setIsFertile] = useState(false)
+    const [ovulation, setOvulation] = useState(new Date())
+    const [fertile, setFertile] = useState(new Date())
+    const [isLoading, setIsLoading] = useState(true)
+    
+    useEffect(() => {
+        setIsLoading(true)
 
-    const getNextPeriod = () => {
+        const today = new Date()
+        let inPeriodSet = false
+        let periodDateSet = false 
+        let fertile_set = false
+        let ovulation_set = false
+
+        let inPeriodTemp = false
+        let periodDateTemp = new Date()
+        let isFertileTemp = false
+        let ovulationTemp = new Date()
+        let fertileTemp = new Date()
+
+        for(let i = cycleArray.length - 1; i >= 0; i-- ){
+
+            if(today < new Date(cycleArray[i].bleed_end) 
+                && today >= new Date(cycleArray[i].bleed_start) && !inPeriodSet){
+                periodDateTemp = new Date(cycleArray[i].bleed_end)
+                inPeriodTemp = true
+                inPeriodSet = true
+                periodDateSet = true
+            }
+
+            else if (!periodDateSet && !inPeriodSet){
+                periodDateTemp = new Date(cycleArray[i].bleed_start)
+                inPeriodTemp = false
+            }
+
+        }
         
-        const date1 = new Date()
-        const date2 = new Date(cycleArray[0].bleed_start)
-        const diffTime = Math.abs(date2 - date1);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays 
-    } 
+        for(let i = cycleInfo.length - 1; i>=0; i--){
+            if (today >= cycleInfo[i].fertile_start && today < cycleInfo[i].fertile_end && !fertile_set){
+                isFertileTemp = true
+                fertileTemp = cycleInfo[i].fertile_end
+                fertile_set  = true
+            }
+
+            else if(today < cycleInfo[i].fertile_start && !fertile_set) {
+                fertileTemp = cycleInfo[i].fertile_start
+                isFertileTemp = false
+                fertile_set  = true
+            }
+
+            if(today <= cycleInfo[i].ovulation_date && !ovulation_set){
+                ovulationTemp = cycleInfo[i].ovulation_date
+            }    
+
+        }
+        
+        console.log(ovulationTemp)
+        setFertile(fertileTemp)
+        setInPeriod(inPeriodTemp)
+        setPeriodDate(periodDateTemp)
+        setIsFertile(isFertileTemp)
+        setOvulation(ovulationTemp)
+
+        setIsLoading(false)
+    }, [])
+    
+
+    useEffect(()=>{
+        let a = moment.utc((new Date()).toISOString())
+        let b = moment.utc(periodDate.toISOString())
+        setDisplayDay(b.diff(a, 'days'))
+    }, [periodDate])
+
+    if(isLoading){
+        return(
+            <View style={{flex:8, justifyContent:"center", alignItems:"center", backgroundColor:COLORS.MID_BLUE}}>
+                <ActivityIndicator size="large" color={COLORS.PINK} />
+            </View>
+        )
+    }
 
     return (
         <View style={styles.homeArea}>
             <View style={styles.inner} >
-                <LatoText style={styles.day}>WED, APRIL 3, 2020</LatoText>
+                <LatoText style={styles.day}>
+                    {moment.utc((new Date()).toISOString()).format('ddd, MMM D, YYYY').toUpperCase()}
+                </LatoText>
                 <CircleArea 
-                    nextPeriod={getNextPeriod()}
-                    nextPeriodDate={getAcronDateShort(new Date(cycleArray[0].bleed_start))}
+                    displayDay={displayDay}
+                    isFertile={isFertile}
+                    inPeriod={inPeriod}
+                    periodDate={periodDate}
                 />
-                <InfoArea />
+                <InfoArea  
+                    isFertile={isFertile}
+                    ovulation={ovulation}
+                    fertile={fertile}
+                />
             </View>
         </View>
     )
@@ -45,6 +128,7 @@ const styles = StyleSheet.create({
         flex:8,
         alignItems:"center",
         justifyContent:"space-around",
+        backgroundColor:COLORS.MID_BLUE
     },
 
     inner:{
