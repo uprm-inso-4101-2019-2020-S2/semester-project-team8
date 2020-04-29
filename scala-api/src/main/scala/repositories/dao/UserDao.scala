@@ -13,6 +13,8 @@ object UserDao extends BaseDao {
   def findById(id:Long):Future[Users] = usersTable.filter(_.id === id).result.head
   def findByEmail(email:String):Future[Users] = usersTable.filter(_.email === email).result.head
 
+  def findAll() = db.run(usersTable.result)
+
   def create(user:Users) = {
     db.run(usersTable returning usersTable.map(_.id) += user)
       .flatMap( id => {
@@ -39,7 +41,7 @@ object UserDao extends BaseDao {
       .map( value =>  {
         val first:(Users, Option[MenstrualCycle]) = value.head
 
-        UsersWCycle(email=first._1.email, id=first._1.id, cycle_avg=first._1.cycle_avg,  cycle={
+        UsersWCycle(email=first._1.email, id=first._1.id, cycle_avg=first._1.cycle_avg, isRegular=first._1.isRegular, image_url=first._1.image_url, cycle={
           value.collect{
             case (u, m) if m.isDefined => m.get
           }

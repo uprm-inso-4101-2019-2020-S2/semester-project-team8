@@ -1,4 +1,4 @@
-package models.SharedUsersModel
+package models.SharedUsersModels
 
 
 case class SharedUsers(

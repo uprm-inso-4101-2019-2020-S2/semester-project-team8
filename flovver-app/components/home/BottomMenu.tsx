@@ -9,7 +9,7 @@ const BottomMenu = ({history}) => {
     return (
         <View style={styles.bottomMenu}>
             <ButtonNoBorder 
-                onPress={()=>{console.log("Hello World")}}
+                onPress={()=>{history.push("/Home/Settings")}}
                 isGear={true}
                 isFlovver={false}
             />
@@ -17,7 +17,7 @@ const BottomMenu = ({history}) => {
                 onPress={()=>{history.push("/Home/Calendar")}}
             />
             <ButtonNoBorder 
-                onPress={()=>{console.log("Hello World")}}
+                onPress={()=>{console.log("/Home/Settings")}}
                 isGear={false}
                 isFlovver={false}
             />

@@ -10,7 +10,7 @@ import spray.json.DefaultJsonProtocol
 trait JsonMappings extends SprayJsonSupport with DefaultJsonProtocol with DateMarshling with SeqSerialization {
 
   // Users JSON FORMATS
-  implicit val usersFormat = jsonFormat4(Users)
+  implicit val usersFormat = jsonFormat5(Users)
 
   implicit val menstrualCycle = jsonFormat5(MenstrualCycle)
 
@@ -22,13 +22,12 @@ trait JsonMappings extends SprayJsonSupport with DefaultJsonProtocol with DateMa
 
   implicit val addCycle = jsonFormat2(AddCycle)
 
-  implicit val usersWcycle = jsonFormat4(UsersWCycle)
+  implicit val usersWcycle = jsonFormat6(UsersWCycle)
 
   // MenstrualCycle JSON FORMATS
 
   // SharedUsers JSON FORMATS
 
   // Calendar Models
-
 
 }

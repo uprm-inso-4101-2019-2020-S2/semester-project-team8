@@ -35,3 +35,14 @@ export const getUserAsync = async (token:string) => {
     ))
     .catch(e => e.response)
 }
+
+export const addPeriod = async (token:string, cycle_info) => {
+    return axios.post(
+        HOST + "menstrual/add_period",
+        {
+            headers: { "Authorization":token },
+            data:cycle_info
+        }).then(res => (
+            res.data
+        )).catch(e => e.response)
+}

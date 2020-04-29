@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import { UserContext } from '../../store/UserContext'
 import BackButton from '../initial_forms/Shared/BackArrow'
 import moment from 'moment'
 import * as COLORS from '../../styles/colors'
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import BackArrow from '../initial_forms/Shared/BackArrow';
+import TitleArea from './TitleArea';
+import ContentArea from './ContentArea';
+import SharedUserArea from './SharedUserArea';
 
 const InitialView = ({history}) => {
     
@@ -82,15 +86,13 @@ const InitialView = ({history}) => {
     return(
   
             <View style={styles.container}>
-                <View>
-                    <BackButton 
-                        onPress={()=>{history.push("/Home/Index")}}
-                    />
-                </View>
-                <Calendar 
-                    markedDates={markedDays}
-                    markingType={'period'}
-                />
+
+                <TitleArea history={history} />
+
+                <ContentArea markedDays={markedDays} />
+
+                <SharedUserArea />
+               
             </View>
 
     )
@@ -101,11 +103,13 @@ export default InitialView
 
 
 const styles = StyleSheet.create({
+    
     container:{
-        padding:20,
         flex:1,
         justifyContent:"flex-start",
-        alignItems:"stretch"
+        alignItems:"stretch",
+        paddingTop:50,
+        backgroundColor:COLORS.PEARL_WHITE
     }
 
 })

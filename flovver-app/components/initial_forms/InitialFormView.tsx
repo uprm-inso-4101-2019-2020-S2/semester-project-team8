@@ -5,22 +5,33 @@ import { Route } from 'react-router-native';
 import PeriodForm from './PeriodForm'
 import DurationForm from './DurationForm'
 import CycleForm from './CycleForm'
+import UserTypeForm from './UserTypeForm';
 
 
 
 
 const InitialFormView = ({periodStart, setPeriodStart, 
     periodDuration, setPeriodDuration, 
-    cycleLen, setCycleLen, sendInit}) => (
+    cycleLen, setCycleLen, sendInit,
+    userType, setUserType
+}) => (
         <View style={styles.container} >
-            
+
+                <Route 
+                    path = "/InitialForm/UserType"
+                    render={(props)=> <UserTypeForm  
+                        {...props}
+                        value={userType}
+                        onSubmit={setUserType}
+                    /> }
+                />
+
                 <Route 
                     path = "/InitialForm/Period"
                     render={(props)=> <PeriodForm  
                         {...props}
                         onSubmit={setPeriodStart}
                         periodStart={periodStart}
-
                     /> }
                 />
                 <Route path="/InitialForm/Duration" 

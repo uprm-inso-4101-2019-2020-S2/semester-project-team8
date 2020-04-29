@@ -52,7 +52,7 @@ const HomeArea = () => {
             }
 
         }
-        
+
         for(let i = cycleInfo.length - 1; i>=0; i--){
             if (today >= cycleInfo[i].fertile_start && today < cycleInfo[i].fertile_end && !fertile_set){
                 isFertileTemp = true
@@ -68,11 +68,18 @@ const HomeArea = () => {
 
             if(today <= cycleInfo[i].ovulation_date && !ovulation_set){
                 ovulationTemp = cycleInfo[i].ovulation_date
+                ovulation_set = true    
             }    
 
         }
         
-        console.log(ovulationTemp)
+
+        
+        
+        if(!ovulation_set){
+            ovulationTemp = cycleInfo[0].ovulation_date
+        }
+
         setFertile(fertileTemp)
         setInPeriod(inPeriodTemp)
         setPeriodDate(periodDateTemp)
@@ -113,6 +120,7 @@ const HomeArea = () => {
                     isFertile={isFertile}
                     ovulation={ovulation}
                     fertile={fertile}
+                    setIsLoading={setIsLoading}
                 />
             </View>
         </View>

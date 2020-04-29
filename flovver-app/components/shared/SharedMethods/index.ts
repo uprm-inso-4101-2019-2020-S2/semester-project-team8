@@ -15,7 +15,7 @@ export const diffDays = (date1:Date, date2:Date) => {
 }
 
 export const getAcronDateShort = (date) => {
-    return moment.utc(date.toISOString()).format("MMM D")
+    return moment.utc(date.toISOString()).format("MMM DD")
 }
 
 export const getDate = (date) => {

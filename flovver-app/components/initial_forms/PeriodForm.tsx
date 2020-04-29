@@ -5,6 +5,8 @@ import {DARK_BLUE, PINK} from '../../styles/colors'
 import Next from './Shared/Next'
 import ChooseDateButton from './Shared/ChooseDateButton'
 import { getDate } from '../shared/SharedMethods'
+import BackArrow from './Shared/BackArrow'
+
 
 const PeriodForm = ({history, periodStart, onSubmit}) => {
 
@@ -17,8 +19,12 @@ const PeriodForm = ({history, periodStart, onSubmit}) => {
     };
 
     return (
-        <React.Fragment>
-            <Text style={styles.title} >When did your last {"\n"} period start?</Text>
+        <>
+            <View 
+                style={{marginTop:10, alignSelf:"stretch"}}>
+                <BackArrow onPress={()=>history.push("/InitialForm/UserType")} />
+                <Text style={styles.title}>When did your last {"\n"} period start?</Text>
+            </View>
             <View>
                 <ChooseDateButton 
                     onPress={()=>{setShow(true)}}
@@ -32,9 +38,8 @@ const PeriodForm = ({history, periodStart, onSubmit}) => {
                 style={{backgroundColor:PINK}}
                />
             }
-            <Next onPress={()=>{history.push("/InitialForm/Duration")}} />
-            
-        </React.Fragment>
+            <Next onPress={()=>{history.push("/InitialForm/Duration")}} />  
+        </>
     )
 
 }

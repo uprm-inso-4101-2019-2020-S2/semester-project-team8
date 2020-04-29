@@ -19,6 +19,11 @@ trait UsersApi extends TokenRepository with JsonMappings{
         complete(
           UserDao.findUserWCycle(claims("email")).map(_.toJson)
         )
+      } ~
+      (path("user"/"all") & get){
+        complete(
+          UserDao.findAll().map(_.toJson)
+        )
       }
 
     })

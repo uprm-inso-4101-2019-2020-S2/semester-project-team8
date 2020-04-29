@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {View, StyleSheet} from 'react-native'
 import { Route } from 'react-router-native'
 
@@ -11,14 +11,14 @@ import Loading from '../shared/Loading'
 import { useUser } from '../shared/Hooks'
 import IndexView from './IndexView'
 import InitialView from '../calendar/InitialView'
-
+import SettingsArea from '../settings/SettingsArea'
 
 // Smart Component
-const Home = () => {
+const Home = ({history}) => {
 
     const [isLoading, setIsLoading] = useState(true)
     
-    useUser(isLoading, setIsLoading) 
+    useUser(isLoading, setIsLoading)
     
     if(isLoading) return <Loading />
 
@@ -27,6 +27,7 @@ const Home = () => {
             <View style={styles.container}>
                 <Route path="/Home/Index" component={IndexView} />
                 <Route path="/Home/Calendar" component={InitialView} />
+                <Route path="/Home/Settings" component={SettingsArea} />
             </View>
         )
     }

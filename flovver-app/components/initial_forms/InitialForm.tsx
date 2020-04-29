@@ -11,15 +11,17 @@ import Loading from '../shared/Loading'
 // Smart Component
 const InitialForm = ( { history } ) => {
 
+    const [userType, setUserType] = useState("regular")
     const [periodStart, setPeriodStart] = useState(new Date())
     const [periodDuration, setPeriodDuration] = useState("5")
     const [cycleLen, setCycleLen] = useState("28")
     const [isLoading, setIsLoading] = useState(false)
+    
     const [state, dispatcher] = useContext(UserContext)
    
     useEffect(() => { 
         console.log(state)
-        history.push("/InitialForm/Period")
+        history.push("/InitialForm/UserType")
     }, [])
 
     const sendInit = async () => {
@@ -31,7 +33,6 @@ const InitialForm = ( { history } ) => {
         }).then(res => {
             if(res && res.status != 400){
                 dispatcher(actions.setUser(res));
-                setIsLoading(false)
                 history.push("/Home/Index")
             }else{ throw "An error ocurred" } 
         }).catch(e => {})
@@ -49,6 +50,8 @@ const InitialForm = ( { history } ) => {
             cycleLen={cycleLen}
             setCycleLen={setCycleLen}
             sendInit={sendInit}
+            userType={userType}
+            setUserType={setUserType}
         />)
 }
 

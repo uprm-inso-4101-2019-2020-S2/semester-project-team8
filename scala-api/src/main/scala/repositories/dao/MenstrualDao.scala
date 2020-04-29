@@ -15,18 +15,16 @@ object MenstrualDao extends BaseDao {
     def findById(id:Long) = {}
 
     def findAll(id:Long):Future[Seq[MenstrualCycle]] = {
-      // db.run( calendarTable.filter(_.owner_id === id).result.head )
-      //   .flatMap( calendar =>
-      //     db.run( menstrualTable.filter(_.calendar_id === calendar.id ).sortBy(_.bleed_start.desc).result)
-      //   )
       db.run(sql"""
         SELECT m.id, m.calendar_id, m.end_date, m.bleed_start, m.bleed_end FROM
         menstrual_cycle m JOIN calendar c ON m.calendar_id = c.id
-        WHERE c.owner_id = ${id};
+        WHERE c.owner_id = ${id}
+        ORDER BY m.bleed_start DESC;
+        ;
       """.as[MenstrualCycle] )
     }
 
-    def findMostRecent(n:Int, skip:Int) = {}
+  def findMostRecent(n:Int, skip:Int) = {}
 
     def create(m:Option[MenstrualCycle]) = {
 
@@ -36,7 +34,7 @@ object MenstrualDao extends BaseDao {
 
     // DESIGN FIRST --------
     def update_cycle(new_data:UpdateCycle, user_id:Long):Future[Int] = {
-      if ( new_data.bleed_end.isDefined && !new_data.bleed_start.isDefined ) {
+      if ( new_data.bleed_end.isDefined && new_data.bleed_start.isEmpty ) {
         db.run(sqlu"""
           UPDATE menstrual_cycle
           SET bleed_end = ${new_data.bleed_end.get}
@@ -45,7 +43,7 @@ object MenstrualDao extends BaseDao {
         """)
       } 
       
-      else if(  !new_data.bleed_end.isDefined && new_data.bleed_start.isDefined ) {
+      else if(  new_data.bleed_end.isEmpty && new_data.bleed_start.isDefined ) {
         db.run(sqlu"""
 
           WITH nbs AS (SELECT ${new_data.bleed_start.get}::date as bleeding)
@@ -75,8 +73,8 @@ object MenstrualDao extends BaseDao {
       db.run(sqlu"""
         INSERT INTO menstrual_cycle (calendar_id, bleed_start, bleed_end, end_date)
           SELECT m.calendar_id as cid,
-                 m.bleed_start + (u.cycle_avg) * interval '1 day' as bs,
-                 m.bleed_start + (u.cycle_avg + DATE_PART('day', m.bleed_end::timestamp - m.bleed_start::timestamp))  * interval '1 day' as be,
+                 m.end_date + 1 * interval '1 day' as bs,
+                 m.end_date + (1 + DATE_PART('day', m.bleed_end::timestamp - m.bleed_start::timestamp))  * interval '1 day' as be,
                  m.end_date + (u.cycle_avg) * interval '1 day' as ed FROM
             (
             -- MOST RECENT PREDICTIONS per calendar
@@ -87,7 +85,9 @@ object MenstrualDao extends BaseDao {
             ) as m JOIN calendar c on m.calendar_id = c.id
                    JOIN users u on u.id = c.owner_id
           -- FROM THE MOST RECENTS OF ALL SELECT THOSE WITH NOW being inside their prediciton cycle
-          WHERE NOW()::date between m.bleed_start AND m.end_date;
+          WHERE
+          NOW()::date > m.end_date
+          OR NOW()::date between m.bleed_start AND m.end_date
        """)
     }
 

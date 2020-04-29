@@ -66,6 +66,7 @@ export const useUser = (isLoading, setIsLoading) => {
                         dispatcher(actions.setUser(calcFertileList(res)))
                         setIsLoading(false)
                     }
+                    console.log(res)
                 } 
                 else { 
                     setIsLoading(false)
@@ -73,6 +74,7 @@ export const useUser = (isLoading, setIsLoading) => {
                 }
             }).catch(e => {history.push("/Login")})
         }else{
+            dispatcher(actions.setUser(calcFertileList({...state.user})))
             setIsLoading(false)
         }
     }, [])

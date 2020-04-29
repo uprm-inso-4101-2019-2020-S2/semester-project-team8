@@ -6,5 +6,7 @@ case class UsersWCycle (
     id: Option[Long],
     email: String,
     cycle_avg: Int,
-    cycle: Seq[MenstrualCycle]
+    cycle: Seq[MenstrualCycle],
+    image_url:String,
+    isRegular:Boolean
 );

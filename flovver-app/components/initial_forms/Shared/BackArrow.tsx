@@ -1,14 +1,15 @@
 import React from 'react'
 import {TouchableOpacity, Image, StyleSheet} from 'react-native'
+import * as COLORS from '../../../styles/colors' 
 
 
-const BackArrow = ({ onPress }) => (
+const BackArrow = ({ onPress, isWhite=false }) => (
         <TouchableOpacity
             onPress = {()=>{onPress()}}
         >
-             <Image 
+             {!isWhite&&<Image 
                     style={styles.backArrow}
-                    source={require('../../../images/ArrowIcon.png')} />
+                    source={require('../../../images/ArrowIcon.png')} />}
         </TouchableOpacity>
 )
 
