@@ -1,16 +1,19 @@
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import api.{ApiErrorHandler, TokenApi, UsersApi, MenstrualApi}
+import api.{ApiErrorHandler, MenstrualApi, SharedUserApi, TokenApi, UsersApi}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 
-trait Routes extends ApiErrorHandler with TokenApi with UsersApi with MenstrualApi {
+import scala.concurrent.ExecutionContext
 
-  val routes: Route =
+trait Routes extends ApiErrorHandler with TokenApi with UsersApi with MenstrualApi with SharedUserApi {
+
+  def routes(implicit executor:ExecutionContext): Route =
     cors() {
       pathPrefix("v1") {
         login ~
         users ~
-        menstrual
+        menstrual ~
+        sharedUser
       }
     } ~ path("")(getFromResource("public/index.html"))
 

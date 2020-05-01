@@ -7,11 +7,11 @@ import repositories.TokenRepository
 import repositories.dao.UserDao
 import spray.json._
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 
 trait UsersApi extends TokenRepository with JsonMappings{
 
-  val users:Route =
+  def users(implicit executor:ExecutionContext):Route =
     // authenticated urls
     authenticated (claims => {
 

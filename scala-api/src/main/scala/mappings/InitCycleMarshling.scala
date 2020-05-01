@@ -1,5 +1,0 @@
-package mappings
-
-trait InitCycleMarshling {
-
-}

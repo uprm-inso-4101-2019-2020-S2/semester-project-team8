@@ -1,0 +1,8 @@
+
+
+
+class UserDaoTest  extends  BaseTestSpec {
+
+
+
+}

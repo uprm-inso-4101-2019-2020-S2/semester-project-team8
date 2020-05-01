@@ -4,15 +4,14 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import mappings.JsonMappings
 import models.LoginRequest
 import repositories.{GoogleSignIn, TokenRepository}
 
 
-trait TokenApi  extends TokenRepository {
+trait TokenApi  extends TokenRepository with JsonMappings{
 
   import authentikat.jwt._
-  import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-  import io.circe.generic.auto._
 
   val login:Route =
      ( path("token") & post ) {
@@ -26,4 +25,6 @@ trait TokenApi  extends TokenRepository {
          } else complete(StatusCodes.Forbidden -> "Access Forbidden!!!")
        }
      }
+
+
 }

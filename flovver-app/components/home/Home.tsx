@@ -10,11 +10,12 @@ import BottomMenu from './BottomMenu'
 import Loading from '../shared/Loading'
 import { useUser } from '../shared/Hooks'
 import IndexView from './IndexView'
-import InitialView from '../calendar/InitialView'
-import SettingsArea from '../settings/SettingsArea'
+import CalendarInitialView from '../calendar/InitialView'
+import SettingsInitialView from '../settings/InitialView'
+import StastisticsInitialView from '../statistics/InitialView'
 
 // Smart Component
-const Home = ({history}) => {
+const Home = () => {
 
     const [isLoading, setIsLoading] = useState(true)
     
@@ -26,8 +27,9 @@ const Home = ({history}) => {
         return (
             <View style={styles.container}>
                 <Route path="/Home/Index" component={IndexView} />
-                <Route path="/Home/Calendar" component={InitialView} />
-                <Route path="/Home/Settings" component={SettingsArea} />
+                <Route path="/Home/Calendar" component={CalendarInitialView} />
+                <Route path="/Home/Settings" component={SettingsInitialView} />
+                <Route path="/Home/Statistics" component={StastisticsInitialView} />
             </View>
         )
     }

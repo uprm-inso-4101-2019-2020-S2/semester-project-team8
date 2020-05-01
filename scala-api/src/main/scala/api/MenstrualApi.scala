@@ -8,12 +8,12 @@ import repositories.TokenRepository
 import repositories.dao.{MenstrualDao, UserDao}
 import spray.json._
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 
 trait MenstrualApi extends TokenRepository with JsonMappings {
 
 
-  val menstrual: Route =
+  def menstrual(implicit executor:ExecutionContext): Route =
     // authenticated urls
     authenticated(claims => {
 

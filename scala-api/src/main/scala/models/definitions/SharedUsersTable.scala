@@ -1,5 +1,5 @@
 package models.definitions
-import models.SharedUsersModel.SharedUsers
+import models.SharedUsersModels.SharedUsers
 import slick.jdbc.PostgresProfile.api._
 
 class SharedUsersTable(tag:Tag) extends Table[SharedUsers](tag, "shared_users"){

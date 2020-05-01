@@ -7,9 +7,11 @@ const FontLoad = ({ children }) => {
 
     const fetchFonts = () => {
         return Fonts.loadAsync({
+            'lato-regular': require('../../assets/fonts/Lato-Regular.ttf'),
             'lato-black': require('../../assets/fonts/Lato-Black.ttf'),
             'lato-bold': require('../../assets/fonts/Lato-Bold.ttf'),
-            'lato-light': require('../../assets/fonts/Lato-Light.ttf')
+            'lato-light': require('../../assets/fonts/Lato-Light.ttf'),
+            
         });
     };
 
