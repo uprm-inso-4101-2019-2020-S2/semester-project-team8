@@ -1,5 +1,5 @@
 package repositories.dao
-import models.SharedUsersModels.{AddSharedUser, SharedUsers, SharedUsersJoinedUser}
+import models.SharedUsersModels.{SharedUsers, SharedUsersJoinedUser}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -8,22 +8,54 @@ import scala.concurrent.Future
 object SharedUsersDao extends BaseDao{
 
     /*
-      Get all users with shared record to your calendar
+      get all users with shared record to your calendar
      */
     def get_shared_users(id:Long): Future[Seq[SharedUsersJoinedUser]] = {
       db.run(
         sql"""
-             SELECT su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+             SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
              FROM shared_users su
               JOIN users u
               ON su.users_id = u.id
              WHERE su.calendar_id = (
               SELECT id FROM calendar
               WHERE owner_id = $id
-             );
+             )
+             AND su.is_allowed = true;
              """.as[SharedUsersJoinedUser]
       )
     }
+
+  /*
+   get all users which you can see there calendar
+   */
+  def get_shared_with_me(id:Long):Future[Seq[SharedUsersJoinedUser]] = {
+    db.run(
+      sql"""
+          SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+             FROM shared_users su
+              JOIN users u
+              ON su.users_id = u.id
+              WHERE su.users_id=$id
+              AND is_allowed=true
+              AND approved = true
+         """.as[SharedUsersJoinedUser])
+  }
+
+  /*
+  get all unapproved shared requests sent to me
+  */
+  def get_unapproved_requests(id:Long):Future[Seq[SharedUsersJoinedUser]] = {
+    db.run(sql"""
+         SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+             FROM shared_users su
+              JOIN users u
+              ON su.users_id = u.id
+              WHERE su.is_allowed = true
+              AND su.approved = false
+              AND su.users_id = $id
+         """.as[SharedUsersJoinedUser])
+  }
 
     /*
         send request to other user
@@ -33,31 +65,82 @@ object SharedUsersDao extends BaseDao{
         is_allowed will be true
         approved will be false
     */
-    def add_shared_user(newUser:AddSharedUser, id:Long):Future[Int] = {
+    def add_shared_user(user_id:Long, id:Long):Future[Int] = {
         db.run(
           sql"""
                 SELECT * FROM shared_users
                 WHERE
-                users_id=${newUser.user_id}
+                users_id=$user_id
                 AND
-                calendar_id = ${newUser.calendar_id}
+                calendar_id = (
+                    SELECT id from calendar
+                    WHERE owner_id = $id
+                )
              """.as[SharedUsers]
         ).flatMap {
           case result if result.isEmpty =>
             db.run(
               sqlu"""
                 INSERT INTO shared_users (users_id, calendar_id, is_allowed, approved) values
-                     (${newUser.user_id}, ${newUser.calendar_id}, true, false )
+                     ($user_id, $id, true, false )
               """)
           case _ =>
             db.run(
               sqlu"""
                     UPDATE shared_users
                     SET is_allowed = true
-                    WHERE users_id=${newUser.user_id}
-                    AND calendar_id=${newUser.calendar_id}
+                    WHERE users_id=$user_id
+                    AND calendar_id=$id
                    """)
         }
+    }
+
+    /*
+      Revoke access to a already existing shared user record
+     */
+    def remove_shared_user(record_id:Long, id:Long) = {
+      db.run(
+        sqlu"""
+        UPDATE shared_users
+        SET is_allowed = false
+        WHERE id=$record_id
+        AND calendar_id = (
+          SELECT id FROM calendar
+          WHERE owner_id=$id
+        )
+        """
+      )
+    }
+
+    /*
+      Revoke view privilegaes to an exisitng calendar that was shared with you
+    */
+
+    def remove_shared_with_me(record_id:Long, id:Long) ={
+      db.run(
+        sqlu"""
+         UPDATE shared_users
+            SET approved=false,
+            is_allowed=false
+            WHERE id=$record_id
+            AND users_id=$id
+         """
+      )
+    }
+
+    /*
+      Approve shared user request
+    */
+    def approve_shared_request(record_id:Long, id:Long) ={
+      db.run(
+        sqlu"""
+         UPDATE shared_users
+            SET approved=true
+            WHERE id=$record_id
+            AND users_id=$id
+            AND is_allowed=true
+         """
+      )
     }
 
 

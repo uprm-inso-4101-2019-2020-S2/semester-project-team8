@@ -9,23 +9,12 @@ import * as COLORS from '../../styles/colors'
 import ContentArea from './ContentArea';
 
 const InitialView = ({history}) => {
-    
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const [changeUserTypeModalVisible, setChangeUserTypeModalVisible] = useState(false);
-    const [logOutModalVisible, setLogOutModalVisible] = useState(false)
 
     return(
         <View style={styles.container}>
-
             <TitleArea history={history} />
-
             <ContentArea />
-
-
         </View>
-
-        
     )
 }
 
@@ -39,6 +28,6 @@ const styles = StyleSheet.create({
     },
 
  
- })
+})
 
 export default InitialView

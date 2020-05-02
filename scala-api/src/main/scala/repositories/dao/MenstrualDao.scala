@@ -189,7 +189,8 @@ object MenstrualDao extends BaseDao {
         val bleed_end_1 = new Date(addDays(bleed_start_1, cycle.bleed_duration - 1))
         val end_date_1 = new Date(addDays(bleed_start_1, cycle.cycle_duration - 1))
 
-        db.run(usersTable.filter(_.id === id).map(_.cycle_avg).update(cycle.cycle_duration))
+        db.run(usersTable.filter(_.id === id).map(u => (u.cycle_avg, u.isRegular))
+          .update((cycle.cycle_duration, if (cycle.is_regular.isDefined) cycle.is_regular.get else true )))
 
         db.run(calendarTable.filter(_.owner_id === id).result.head)
           .map( calendar => {
@@ -198,7 +199,8 @@ object MenstrualDao extends BaseDao {
                   end_date=Some(end_date),
                   bleed_start=cycle.bleed_start,
                   bleed_end=bleed_end,
-                  calendar_id = calendar.id
+                  calendar_id = calendar.id,
+
               )
               val c2 = MenstrualCycle(
                   id=None,

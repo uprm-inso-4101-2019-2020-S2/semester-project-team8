@@ -35,5 +35,5 @@ trait BaseDao extends DatabaseConfig {
   implicit val menstrualGet = GetResult(r => MenstrualCycle(Some(r.<<), Some(r.<<), Some(r.<<), r.<<, r.<<))
   // SharedUsers
   implicit val sharedUserGet = GetResult(r => SharedUsers(Some(r.<<), Some(r.<<), Some(r.<<), r.<<, r.<< ))
-  implicit val sharedUsersJoinUser = GetResult(r => SharedUsersJoinedUser(r.<<, r.<<, r.<<, r.<<, r.<<))
+  implicit val sharedUsersJoinUser = GetResult(r => SharedUsersJoinedUser(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
 }
