@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         letterSpacing:2,
         marginTop:10,
         fontFamily:"lato-regular",
-        color:COLORS.DARK_BLUE
+        color:COLORS.DARK_GREY
     },
 
     switch:{

@@ -17,12 +17,13 @@ const BottomMenu = ({history}) => {
                 onPress={()=>{history.push("/Home/Calendar")}}
             />
             <ButtonNoBorder 
-                onPress={()=>{console.log("/Home/Settings")}}
+                onPress={()=>{history.push("/Home/Statistics")}}
                 isGear={false}
                 isFlovver={false}
             />
         </View>
     )
+    
 }
 
 const styles = StyleSheet.create({

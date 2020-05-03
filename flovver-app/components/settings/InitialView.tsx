@@ -12,7 +12,9 @@ const InitialView = ({history}) => {
 
     return(
         <View style={styles.container}>
-            <TitleArea history={history} />
+            <TitleArea history={history}  
+                title="SETTINGS"
+            />
             <ContentArea />
         </View>
     )

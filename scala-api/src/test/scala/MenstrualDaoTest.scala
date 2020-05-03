@@ -7,6 +7,8 @@ import scala.concurrent.duration.Duration
 
 trait MenstrualDaoTest extends BaseTestSpec with ScalaFutures {
     
+
+
     it should "create one initial cycle" in {
         
         val init_user1 = Await.result(initialCycle(init, testUser1.id.get), Duration.Inf)
