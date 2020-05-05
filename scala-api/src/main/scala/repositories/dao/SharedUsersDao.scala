@@ -1,5 +1,6 @@
 package repositories.dao
 import models.SharedUsersModels.{SharedUsers, SharedUsersJoinedUser}
+import models.MenstrualCycleModels.MenstrualCycle
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,7 +14,7 @@ object SharedUsersDao extends BaseDao{
     def get_shared_users(id:Long): Future[Seq[SharedUsersJoinedUser]] = {
       db.run(
         sql"""
-             SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+             SELECT su.id, su.users_id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
              FROM shared_users su
               JOIN users u
               ON su.users_id = u.id
@@ -32,7 +33,7 @@ object SharedUsersDao extends BaseDao{
   def get_shared_with_me(id:Long):Future[Seq[SharedUsersJoinedUser]] = {
     db.run(
       sql"""
-          SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+          SELECT su.id, su.users_id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
              FROM shared_users su
               JOIN users u
               ON su.users_id = u.id
@@ -47,7 +48,7 @@ object SharedUsersDao extends BaseDao{
   */
   def get_unapproved_requests(id:Long):Future[Seq[SharedUsersJoinedUser]] = {
     db.run(sql"""
-         SELECT su.id, su.users_id, u.email, u.image_url, su.approved, su.is_allowed
+         SELECT su.id, su.users_id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
              FROM shared_users su
               JOIN users u
               ON su.users_id = u.id
@@ -140,6 +141,21 @@ object SharedUsersDao extends BaseDao{
             AND users_id=$id
             AND is_allowed=true
          """
+      )
+    }
+
+    /*
+      Get latest 5 cycles of target user
+    */
+    def get_cycle_info(record_id:Long, id:Long): Future[Seq[MenstrualCycle]] = {
+      db.run(
+        sql"""
+          SELECT m.id, m.calendar_id, m.end_date, m.bleed_start, m.bleed_end
+            FROM menstrual_cycle m
+            JOIN shared_users su ON su.calendar_id = m.calendar_id 
+            WHERE su.id = $record_id
+            AND users_id = $id
+        """.as[MenstrualCycle]
       )
     }
 

@@ -25,7 +25,7 @@ export const useMenstrualData = () => {
 }
 
 
-const calcFertileList = (res) => {
+export const calcFertileList = (res) => {
     const newState = [];
     res.cycle.map( (cycle) => {
         newState.push({
@@ -33,7 +33,6 @@ const calcFertileList = (res) => {
             fertile_end:addDays(16, new Date(cycle.bleed_start)),
             ovulation_date:addDays(diffDays(new Date(cycle.bleed_start), new Date(cycle.end_date))/2, new Date(cycle.bleed_start))
         })
-        console.log(newState)
     })
     return {
         ...res,
@@ -66,7 +65,6 @@ export const useUser = (isLoading, setIsLoading) => {
                         dispatcher(actions.setUser(calcFertileList(res)))
                         setIsLoading(false)
                     }
-                    console.log(res)
                 } 
                 else { 
                     setIsLoading(false)

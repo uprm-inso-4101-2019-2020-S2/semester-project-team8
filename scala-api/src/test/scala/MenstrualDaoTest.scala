@@ -1,13 +1,15 @@
 import models.MenstrualCycleModels.{AddCycle, InitialCycle, MenstrualCycle, UpdateCycle}
 import org.scalatest.concurrent.ScalaFutures
 import repositories.dao.MenstrualDao._
+import repositories.dao.SharedUsersDao._
+
+import java.sql.Date
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 trait MenstrualDaoTest extends BaseTestSpec with ScalaFutures {
     
-
 
     it should "create one initial cycle" in {
         
@@ -28,6 +30,18 @@ trait MenstrualDaoTest extends BaseTestSpec with ScalaFutures {
 
     }
 
+    it should "fetch cycles of a certain shared user" in {
+        
+        val get_shared_w_me = Await.result(get_shared_with_me(testUser2.id.get), Duration.Inf)
+
+        assert(get_shared_w_me.length == 1)
+
+        val cycle_seq = Await.result(get_cycle_info(get_shared_w_me(0).id, testUser2.id.get) , Duration.Inf)
+        assert(cycle_seq.length ==  2)
+        assert(cycle_seq(0).calendar_id.get == calendar1.id.get)
+
+    }
+
     it should "find all cycles" in {
         
         val search_1 = Await.result(findAll(testUser1.id.get), Duration.Inf).length
@@ -35,54 +49,63 @@ trait MenstrualDaoTest extends BaseTestSpec with ScalaFutures {
 
         val search_2 = Await.result(findAll(testUser2.id.get), Duration.Inf).length
         assert(search_2 == 2)
+
     }
 
-    // it should "creat a new cycle" in {
-    //     val added_cycle = AddCycle(
-    //         bleed_start = new Date(java.util.Calendar.getInstance().getTime.getTime),
-    //         bleed_duration = 7,
-    //         cycle_duration = 29,
-    //         is_regular = Some(true)
-    //     ) 
+    
+
+    it should "creat a new cycle" in {
+        val search_1 = Await.result(findAll(testUser1.id.get), Duration.Inf)
+        assert(search_1.length == 2)
         
-    //     val num1 = Await.result(add_period(added_cycle, testUser1.id.get), Duration.Inf)
-    //     assert(num1 == 1)
-
+        val added_cycle = AddCycle(
+            bleed_start = new Date(addDays(search_1(0).bleed_start, 5)),
+            cycle_id = search_1(0).id.get
+        ) 
         
+        val num1 = Await.result(add_period(added_cycle, testUser1.id.get), Duration.Inf)
+        assert(num1 == 1)
 
-    //     // buscar todos de 1
+        val search_after = Await.result(findAll(testUser1.id.get), Duration.Inf)
 
+        assert(search_after(1).end_date.get == new Date(addDays(search_after(0).bleed_start, -1)))
 
-    //     // tomar el mas reciente
+        // check that bleed_start and bleed_end do not overlap
 
+    }
+
+    it should "update a current cycle" in {
+        val get_1 = Await.result(findAll(testUser1.id.get), Duration.Inf)(0)
+        val new_addition = UpdateCycle(
+                bleed_start = Some(new Date(addDays(get_1.bleed_start, 4))),
+                bleed_end = None,
+                cycle_id = get_1.id.get
+            )     
         
-    //     // usas su id
-        
+        val update_1 = Await.result(update_cycle(new_addition,testUser1.id.get), Duration.Inf)
+        assert(update_1 == 1)
 
-    // }
+        val get_2 = Await.result(findAll(testUser1.id.get), Duration.Inf)(0)
+        val new_addition_2 = UpdateCycle(
+                bleed_start = None,
+                bleed_end = Some(new Date(addDays(get_1.bleed_end, 10))),
+                cycle_id = get_1.id.get
+        )     
 
-    // it should "update a current cycle" in {
-    //     val get_1 = Await.result(findAll(testUser1.id.get), Duration.Inf)(0)
-    //     val new_addition = (
-    //             bleed_start = new Date(java.util.Calendar.getInstance().getTime.getTime),
-    //             bleed_duration = 6,
-    //             cycle_duration = 31,
-    //             is_regular = Some(true)
-    //         )
-        
-    //     val update_1 = Await.result(update_cycle(get_1, ), Duration.Inf)
-        
-    //     // Buscar todos los ciclos de 1
+        val update_2 = Await.result(update_cycle(new_addition_2,testUser1.id.get), Duration.Inf)
+        assert(update_2 == 1)
 
-    //     // Por cada 1 has update de su bleed_start a bleed_start - 4
+        // Buscar todos los ciclos de 1
 
-    //     // Verifica las fechas esten cambaindo
+        // Por cada 1 has update de su bleed_start a bleed_start - 4
 
-    //     // Y luego el bleed_end 
+        // Verifica las fechas esten cambaindo
+
+        // Y luego el bleed_end 
 
 
 
-    // }
+    }
 
     // it should "add a new cycle prediction" in {
 

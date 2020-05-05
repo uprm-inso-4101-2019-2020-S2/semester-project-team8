@@ -1,8 +1,9 @@
 package models.SharedUsersModels
 
 case class SharedUsersJoinedUser(
-                              id:Long,
+                                id:Long,
                                user_id:Long,
+                               calendar_id:Long,
                                email:String,
                                image_url:String,
                                approved:Boolean,

@@ -9,7 +9,7 @@ import akka.http.scaladsl.server.Directives._
 
 trait TokenRepository {
 
-  protected val tokenExpirePeriodInDays:Int = 365
+  protected val tokenExpirePeriodInDays:Int = if (sys.env("ENV") == "PRODUCTION") 31 else 365
   protected val secretKey:String = sys.env("SECRET_KEY")
   protected val header:JwtHeader = JwtHeader("HS256")
 

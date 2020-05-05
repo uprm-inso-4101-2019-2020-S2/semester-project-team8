@@ -4,6 +4,9 @@ import repositories.dao.SharedUsersDao._
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
+import slick.jdbc.PostgresProfile.api._
+
+
 trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
 
   // adding functionality
@@ -64,6 +67,7 @@ trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
     assert(num0 == 1)
 
     val get_shared_after = Await.result(get_shared_with_me(testUser1.id.get), Duration.Inf)
+
     assert(get_shared_after.isEmpty)
 
   }
@@ -79,6 +83,21 @@ trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
     val get_user_after = Await.result(get_shared_users(testUser1.id.get), Duration.Inf)
     assert(get_user_after.isEmpty)
     
+  }
+
+  // check adding after revoking\
+  it should "get added without adding a new row" in {
+
+    val add1 = Await.result(add_shared_user(testUser2.id.get, testUser1.id.get), Duration.Inf)
+
+    assert(add1 == 1)
+
+    val checkLength = Await.result(db.run(sql"""
+      SELECT COUNT(*) FROM shared_users
+    """.as[Int]), Duration.Inf)
+
+    assert(checkLength(0) == 2)
+
   }
 
 }

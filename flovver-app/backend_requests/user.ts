@@ -37,12 +37,16 @@ export const getUserAsync = async (token:string) => {
 }
 
 export const addPeriod = async (token:string, cycle_info) => {
+    const options = {
+        headers: { "Authorization":token }
+    };
+      
     return axios.post(
         HOST + "menstrual/add_period",
-        {
-            headers: { "Authorization":token },
-            data:cycle_info
-        }).then(res => (
-            res.data
-        )).catch(e => e.response)
+        cycle_info,
+        options
+        ).then(res => {
+            console.log(res)
+            return res.data
+        }).catch(e => e.response)
 }

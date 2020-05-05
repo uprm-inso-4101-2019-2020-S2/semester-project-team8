@@ -1,6 +1,7 @@
 import * as int from '../interfaces'
 import * as actions from './constants'
 
+// USER STATE
 export const setToken = (token:string):int.Action => ({
     type:actions.SET_TOKEN,
     payload:token
@@ -15,3 +16,10 @@ export const setUser = (user:int.User):int.Action => ({
     type:actions.SET_USER,
     payload:user
 })
+
+// SHARED USER
+export const setSharedUsers = (users:Array<any>):int.Action => ({
+    type:actions.SET_USERS,
+    payload:users
+})
+

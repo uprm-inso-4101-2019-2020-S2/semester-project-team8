@@ -1,5 +1,6 @@
 import * as int from '../interfaces'
 import * as constants from '../actions/constants'
+import { calcFertileList } from '../../components/shared/Hooks'
 
 const userReducer = (state, action) => {
 
@@ -8,9 +9,13 @@ const userReducer = (state, action) => {
     switch(type){
 
         case constants.SET_USER:
+            let new_state = action.payload
+            if (action.payload && action.payload.cycle){
+                new_state = calcFertileList(new_state)
+            }
             return {
                 ...state,
-                user:action.payload
+                user:new_state
             }
         
         case constants.SET_TOKEN:

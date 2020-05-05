@@ -1,3 +1,3 @@
-class TestIndex extends MenstrualDaoTest with SharedUserDaoTest{
-  
+class TestIndex extends SharedUserDaoTest with MenstrualDaoTest with UserDaoTest {
+    
 }

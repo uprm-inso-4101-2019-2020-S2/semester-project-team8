@@ -7,7 +7,7 @@ import * as COLORS from '../../styles/colors'
 
 import { View, StyleSheet, Text } from 'react-native';
 import BackArrow from '../initial_forms/Shared/BackArrow';
-import TitleArea from './TitleArea';
+import TitleArea from '../settings/TitleArea';
 import ContentArea from './ContentArea';
 import SharedUserArea from './SharedUserArea';
 
@@ -87,7 +87,9 @@ const InitialView = ({history}) => {
   
             <View style={styles.container}>
 
-                <TitleArea history={history} />
+                <TitleArea 
+                title={"CALENDAR"}
+                history={history} />
 
                 <ContentArea markedDays={markedDays} />
 
@@ -108,7 +110,6 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:"flex-start",
         alignItems:"stretch",
-        paddingTop:50,
         backgroundColor:COLORS.PEARL_WHITE
     }
 

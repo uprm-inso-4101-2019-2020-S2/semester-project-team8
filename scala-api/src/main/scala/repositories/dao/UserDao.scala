@@ -11,6 +11,7 @@ import scala.concurrent.Future
 object UserDao extends BaseDao {
 
   def findById(id:Long):Future[Users] = usersTable.filter(_.id === id).result.head
+  
   def findByEmail(email:String):Future[Users] = usersTable.filter(_.email === email).result.head
 
   def findAll() = db.run(usersTable.result)
@@ -28,7 +29,7 @@ object UserDao extends BaseDao {
       (u, c)  <-
         usersTable.filter(_.email === email) join calendarTable on (_.id === _.owner_id)
     } yield (u, c)
-
+     
     val query2 =  for {
 
       ( (u ,c) , m) <-
@@ -49,6 +50,16 @@ object UserDao extends BaseDao {
 
       })
 
+  }
+
+  def search_user(email:String):Future[Seq[Users]] = {
+      db.run(
+        sql"""
+          SELECT id, email, 'isRegular', cycle_avg, image_url 
+          FROM users 
+          WHERE email LIKE ${"%"+email+"%"}
+        """.as[Users]
+      )
   }
 
 

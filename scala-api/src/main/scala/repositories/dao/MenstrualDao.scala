@@ -220,7 +220,7 @@ object MenstrualDao extends BaseDao {
 
     }
 
-    private def addDays(date:Date, duration:Int):Long = {
+    def addDays(date:Date, duration:Int):Long = {
         val c = Calendar.getInstance()
 
         c.setTime(date)

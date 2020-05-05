@@ -5,7 +5,8 @@ import { Text, View, StyleSheet, Image, Dimensions,
 
 import * as COLORS from '../../styles/colors'
 import * as scale from 'd3-scale'
-import { BarChart, YAxis, XAxis, Grid} from 'react-native-svg-charts'
+import { BarChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+
 import TitleArea from '../settings/TitleArea'
 
 
@@ -35,6 +36,21 @@ const InitialView = ({history}) => {
         },
     ]
 
+    // const CUT_OFF = 50
+    // const Labels = ({  x, y, bandwidth, data }) => (
+    //     data.map((value, index) => (
+    //         <Text
+    //             key={ index }
+    //             x={ value > CUT_OFF ? x(0) + 10 : x(value) + 10 }
+    //             y={ y(index) + (bandwidth / 2) }
+    //             fontSize={ 14 }
+    //             fill={ value > CUT_OFF ? 'white' : 'black' }
+    //             alignmentBaseline={ 'middle' }
+    //         >
+    //             {value}
+    //         </Text>
+    //     ))
+    // )
 
     return(
 
@@ -63,13 +79,29 @@ const InitialView = ({history}) => {
                         <BarChart 
                             style={styles.PeriodChart}
                             yAccessor={({ item }) => item.value}
+                            
                             data={data}
-                            svg={{fill:'rgb(134, 65, 244)'}}
+                            svg={{fill:COLORS.MID_BLUE}}
                             contentInset={{top: 10}}
                             gridMin={0}
+                            // horizontal={false}
+                            
                         >
-                        <Grid direction={Grid.Direction.VERTICAL}/>
+                            <Grid direction={Grid.Direction.VERTICAL}/>
+                            {/* <Labels/> */}
                         </BarChart>
+                        {/* <XAxis
+                            data={data}
+                            contentInset={{left:10}}
+                            xAccessor={({ index }) => index}
+                            svg={{
+                                fill: 'grey',
+                                fontSize: 10,
+                            }}
+                            scale={scale.scaleBand}
+                            numberOfTicks={10}
+                            formatLabel={(days) => `${days}`}  
+                        /> */}
                         {/* X axis: days/duration, Y axis: start date */}
                     </View>
                 

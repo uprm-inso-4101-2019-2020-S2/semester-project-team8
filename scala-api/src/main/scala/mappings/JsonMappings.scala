@@ -26,5 +26,5 @@ trait JsonMappings extends SprayJsonSupport with DefaultJsonProtocol with DateMa
 
   // SharedUsers JSON FORMATS
   implicit val sharedUserFormat = jsonFormat5(SharedUsers)
-  implicit val sharedUsersJoinedUserFormat = jsonFormat6(SharedUsersJoinedUser)
+  implicit val sharedUsersJoinedUserFormat = jsonFormat7(SharedUsersJoinedUser)
 }

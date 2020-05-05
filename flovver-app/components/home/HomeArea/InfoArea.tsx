@@ -1,20 +1,59 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
+import { UserContext } from '../../../store/UserContext' 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import ButtonNoBorder from '../Shared/ButtonNoBorder'
 
 import { getAcronDateShort } from '../../shared/SharedMethods'
 
+import * as requests from '../../../backend_requests/user'
+import * as actions from '../../../store/actions'
+
+import {useHistory} from 'react-router-native'
+
+import {useMenstrualData} from '../../shared/Hooks'
+
+import moment from 'moment'
+
 const InfoArea = ({ ovulation, fertile, isFertile, setIsLoading }) => {
         
     const [show, setShow] = useState(false)
     const [selectedDate, setSelectedDate] = useState(new Date())
+    const [state, dispatcher] = useContext(UserContext)
 
-    const onChange = (event, date) => {
+    const selectId = (date:Date) => {
+
+        const pt = 0.70 
+
+        let m = moment.utc(date.toISOString())
+        
+        let m1 = moment.utc(state.user.cycle[1].bleed_start).add(state.user.cycle_avg*pt, 'days')
+
+        return m.isAfter(m1)? state.user.cycle[0].id : state.user.cycle[1].id
+
+    }
+
+    const onChange = (event, date:Date) => {
+        
         setShow(false)
+        
         const currentDate = date  || selectedDate;
+
         setIsLoading(true)
+
+        let t_id = selectId(date) 
+        console.log(t_id)
+        let to_send = state.user.cycle[0].id == t_id ? state.user.cycle[0].bleed_start : state.user.cycle[1].bleed_start
+
+        requests.addPeriod(state.token, {
+            bleed_start:date.toISOString().split("T")[0],
+            cycle_id:t_id
+        }).then( res => {
+            console.log(res)
+            dispatcher(actions.setUser(res))
+        }).then(()=>{setIsLoading(false)})
+
     }
 
     return( <View style={styles.Events}> 

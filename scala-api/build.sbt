@@ -4,7 +4,6 @@ version := "0.1"
 
 scalaVersion := "2.12.7"
 
-
 libraryDependencies ++= {
 
   val akka_version = "2.6.4"
@@ -29,8 +28,9 @@ libraryDependencies ++= {
     "io.spray" %% "spray-json" % "1.3.5",
     "org.scalatest" %% "scalatest" % "3.1.1" % "test"
   )
+
 }
 
-
+enablePlugins(JavaAppPackaging)
 
 

@@ -9,6 +9,8 @@ import spray.json._
 
 import scala.concurrent.ExecutionContext
 
+
+// TODO:Add get_cycle_info route
 trait SharedUserApi extends TokenRepository with JsonMappings {
 
   def sharedUser(implicit executor:ExecutionContext):Route = {

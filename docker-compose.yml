@@ -23,6 +23,8 @@ services:
             - DEBUG=1
             - DB_PORT=5432
             - CLIENT_ID=716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com
+            - ENV=DEVELOPMENT
+            - PORT=8080
         depends_on:
             - db
 

@@ -13,6 +13,9 @@ trait UsersApi extends TokenRepository with JsonMappings{
 
   def users(implicit executor:ExecutionContext):Route =
     // authenticated urls
+    /*
+    
+    */
     authenticated (claims => {
 
       (path("user") & get) {
@@ -23,6 +26,11 @@ trait UsersApi extends TokenRepository with JsonMappings{
       (path("user"/"all") & get){
         complete(
           UserDao.findAll().map(_.toJson)
+        )
+      } ~
+      (path("user"/ Segment) & get){ email: String =>
+        complete(
+          UserDao.search_user(email).map(_.toJson)
         )
       }
 

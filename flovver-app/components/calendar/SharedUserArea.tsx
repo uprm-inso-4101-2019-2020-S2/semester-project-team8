@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import BackArrow from '../initial_forms/Shared/BackArrow'
 import * as COLORS from '../../styles/colors'
 
+
 const SharedUserArea = () => {
 
     return(
@@ -29,7 +30,7 @@ const SharedUserArea = () => {
                 </View>
                 <View style={styles.IndContainer} >
                     <View  style={styles.Image} />
-                    <Text style={styles.Username}>username</Text>
+                    <Text style={styles.Username} >username</Text>
                 </View>
                 <View style={styles.IndContainer} >
                     <View  style={styles.Image} />
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     SharedContainer:{
         borderTopLeftRadius:60,
         borderTopRightRadius:60,
-        flex:4.5,
+        flex:3.5,
         backgroundColor:COLORS.MID_BLUE,
         alignItems:"center",
         paddingTop:10
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
     },
 
     UsersContainer: {
-        
-        padding:30,
+        marginTop:10,
+        flex:0.2
     },
 
     ImageContainer:{
@@ -74,10 +75,9 @@ const styles = StyleSheet.create({
         borderBottomColor:COLORS.WHITE,
         borderTopWidth:1,
         borderBottomWidth:1,
-        flex:0.5,
+        flex:0.4,
         flexDirection:"row",
-        padding:20,
-        
+        paddingTop:4,
         justifyContent:"space-around"
     },
 

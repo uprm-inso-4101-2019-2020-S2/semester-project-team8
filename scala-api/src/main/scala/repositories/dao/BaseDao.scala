@@ -2,6 +2,8 @@ package repositories.dao
 
 import models.MenstrualCycleModels.MenstrualCycle
 import models.SharedUsersModels.{SharedUsers, SharedUsersJoinedUser}
+import models.UserModels.Users
+
 import slick.dbio.NoStream
 import slick.lifted.TableQuery
 import slick.sql.{FixedSqlStreamingAction, SqlAction}
@@ -31,9 +33,13 @@ trait BaseDao extends DatabaseConfig {
   }
 
   // SQL IMPLICITS
+
   // Users
+  implicit val userGet = GetResult(r => Users(Some(r.<<), r.<<, r.<<, r.<<, r.<<))
+  // Menstrual Cycle
   implicit val menstrualGet = GetResult(r => MenstrualCycle(Some(r.<<), Some(r.<<), Some(r.<<), r.<<, r.<<))
   // SharedUsers
   implicit val sharedUserGet = GetResult(r => SharedUsers(Some(r.<<), Some(r.<<), Some(r.<<), r.<<, r.<< ))
-  implicit val sharedUsersJoinUser = GetResult(r => SharedUsersJoinedUser(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
+  implicit val sharedUsersJoinUser = GetResult(r => SharedUsersJoinedUser(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
+
 }
