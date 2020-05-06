@@ -1,12 +1,15 @@
 import React from 'react'
 
 import UserProvider from  './UserContext'
+import SharedUserProvider from './SharedUserContext'
 
 
 
 const Store = ({children}) => (
     <UserProvider> 
-        {children}
+        <SharedUserProvider>
+            {children}
+        </SharedUserProvider>
     </UserProvider>
 )
 

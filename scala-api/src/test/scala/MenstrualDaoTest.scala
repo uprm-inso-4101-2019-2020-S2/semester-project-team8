@@ -38,7 +38,7 @@ trait MenstrualDaoTest extends BaseTestSpec with ScalaFutures {
 
         val cycle_seq = Await.result(get_cycle_info(get_shared_w_me(0).id, testUser2.id.get) , Duration.Inf)
         assert(cycle_seq.length ==  2)
-        assert(cycle_seq(0).calendar_id.get == calendar1.id.get)
+        assert(cycle_seq.head.calendar_id.get == calendar1.id.get)
 
     }
 

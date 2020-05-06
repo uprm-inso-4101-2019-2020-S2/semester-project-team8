@@ -36,7 +36,7 @@ trait SharedUserApi extends TokenRepository with JsonMappings {
               SharedUsersDao.get_shared_users(claims("id").toLong).map(_.toJson)
             )
         )
-        
+
       } ~ // Revoke access to yourself from a calendar shared with you
       (path("shared_users"/"revoke_me"/LongNumber) & delete){ record_id =>
         complete(
@@ -68,6 +68,12 @@ trait SharedUserApi extends TokenRepository with JsonMappings {
             .flatMap(_ => 
               SharedUsersDao.get_shared_with_me(claims("id").toLong).map(_.toJson)
             )
+        )
+      } ~ // Get cycle Info of target shared user
+      (path("shared_users"/"cycles"/LongNumber ) & get) { record_id =>
+        complete(
+          SharedUsersDao.get_cycle_info(record_id, claims("id").toLong)
+            .map(_.toJson)
         )
       }
 

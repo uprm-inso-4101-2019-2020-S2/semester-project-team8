@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import BackArrow from '../initial_forms/Shared/BackArrow'
 import * as COLORS from '../../styles/colors'
+import AddUserModal from './AddUserModal'
+import AddUserButton from './shared/AddUserButton'
 
 
 const SharedUserArea = () => {
+
+    const [ addVisible, setAddVisible ] = useState(false)
 
     return(
         <View style={styles.SharedContainer} >
@@ -32,16 +36,19 @@ const SharedUserArea = () => {
                     <View  style={styles.Image} />
                     <Text style={styles.Username} >username</Text>
                 </View>
-                <View style={styles.IndContainer} >
-                    <View  style={styles.Image} />
-                    <Text style={styles.Username} >username</Text>
-                </View>
+                <AddUserButton 
+                    onPress={()=>{setAddVisible(true)}}
+                />
             </View>
 
             <View style={styles.DownArrow}>
                 <BackArrow isWhite={true} onPress={()=>{console.log("Hello World")}} />
             </View>
-            
+
+            <AddUserModal 
+                addUserModalVisible={addVisible}
+                setAddUserModalVisible={setAddVisible}
+            />
         </View>
     )
 }

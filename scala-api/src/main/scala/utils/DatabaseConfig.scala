@@ -5,7 +5,7 @@ trait DatabaseConfig extends Config {
 
   import driver.api._
 
-  val db = if(sys.env("ENV") == "PRODUCTION")  Database.forConfig("databaseUrl") else Database.forConfig("database")
+  val db = Database.forConfig("databaseUrl")
 
   implicit val session: Session = db.createSession()
 

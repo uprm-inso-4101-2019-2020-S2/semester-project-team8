@@ -11,8 +11,15 @@ const sharedUserReducer = (state, action) => {
                 ...state,
                 users:action.payload    
             }
+        case constants.SET_USERS_CYCLES:
+            return {
+                ...state,
+                cycles:action.payload
+            }
         default:
             return state
     }
 
 }
+
+export default sharedUserReducer

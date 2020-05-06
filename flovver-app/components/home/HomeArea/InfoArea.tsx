@@ -40,11 +40,11 @@ const InfoArea = ({ ovulation, fertile, isFertile, setIsLoading }) => {
         
         const currentDate = date  || selectedDate;
 
+        if (currentDate == selectedDate) {setIsLoading(false); return;}
+
         setIsLoading(true)
 
         let t_id = selectId(date) 
-        console.log(t_id)
-        let to_send = state.user.cycle[0].id == t_id ? state.user.cycle[0].bleed_start : state.user.cycle[1].bleed_start
 
         requests.addPeriod(state.token, {
             bleed_start:date.toISOString().split("T")[0],

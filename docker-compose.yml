@@ -5,26 +5,20 @@ services:
     scala-api:
         build:
             context: .
-            dockerfile: scala-api/Dockerfile
+            dockerfile: ./scala-api/Dockerfiles/Dockerfile
         ports:
             - '8080:8080'
         volumes:
             - './scala-api:/scala-api'
-
         command: >
-            sh -c 'sbt run'
-
+            sh -c 'sbt test && sbt run'
         environment:
-            - DB_HOST=db
-            - DB_NAME=app
-            - DB_PASS=supersecretpassword
-            - DB_USER=postgres
             - SECRET_KEY=foo
             - DEBUG=1
-            - DB_PORT=5432
             - CLIENT_ID=716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com
             - ENV=DEVELOPMENT
             - PORT=8080
+            - DATABASE_URL=postgres://postgres:supersecretpassword@db:5432/app
         depends_on:
             - db
 

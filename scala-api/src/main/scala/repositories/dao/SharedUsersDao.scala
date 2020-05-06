@@ -33,11 +33,13 @@ object SharedUsersDao extends BaseDao{
   def get_shared_with_me(id:Long):Future[Seq[SharedUsersJoinedUser]] = {
     db.run(
       sql"""
-          SELECT su.id, su.users_id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
-             FROM shared_users su
-              JOIN users u
-              ON su.users_id = u.id
-              WHERE su.users_id=$id
+          SELECT su.id, u.id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
+            FROM shared_users su
+            JOIN calendar c
+              ON su.calendar_id = c.id
+            JOIN users u
+              ON u.id = c.owner_id
+            WHERE su.users_id=$id
               AND is_allowed=true
               AND approved = true
          """.as[SharedUsersJoinedUser])

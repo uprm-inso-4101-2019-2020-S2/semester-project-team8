@@ -12,13 +12,13 @@ export const useMenstrualData = () => {
 
     const [state, dispatcher] = useContext(UserContext)
 
-    useEffect(() => {
-        if(state.user){
-            if(state.user){
-                dispatcher(actions.setUser(calcFertileList(state.user)))
-            }
-        }
-    }, []) 
+    // useEffect(() => {
+    //     if(state.user){
+    //         if(state.user){
+    //             dispatcher(actions.setUser(calcFertileList(state.user)))
+    //         }
+    //     }
+    // }, []) 
  
     return [state.user.cycle, state.user.cycleInfo]
 

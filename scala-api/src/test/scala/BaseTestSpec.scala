@@ -67,13 +67,6 @@ trait BaseTestSpec extends AnyFlatSpec with Matchers with BaseDao with Migration
 
   // End Persona 2
   reloadSchema()
-
-  Await.result(db.run(sqlu"""
-    DELETE FROM shared_users;
-    DELETE FROM menstrual_cycle;
-    DELETE FROM calendar;
-    DELETE FROM users;
-  """), Duration.Inf)
   
   Await.result( db.run(usersTable += testUser1) , Duration.Inf)
   Await.result( db.run(usersTable += testUser2) , Duration.Inf)

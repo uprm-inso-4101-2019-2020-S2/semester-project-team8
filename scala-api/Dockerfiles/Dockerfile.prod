@@ -1,6 +1,6 @@
 FROM openjdk:8
 
-COPY ./target  /build
+COPY target /build
 
 ENTRYPOINT /build/universal/stage/bin/scala-api
 

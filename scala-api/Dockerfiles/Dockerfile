@@ -10,6 +10,6 @@ RUN \
 
 WORKDIR /scala-api
 
-ADD . /scala-api
+ADD scala-api /scala-api
 
 

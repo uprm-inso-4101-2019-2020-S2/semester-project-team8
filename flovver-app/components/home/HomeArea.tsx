@@ -73,9 +73,6 @@ const HomeArea = () => {
 
         }
         
-
-        
-        
         if(!ovulation_set){
             ovulationTemp = cycleInfo[0].ovulation_date
         }
@@ -87,7 +84,7 @@ const HomeArea = () => {
         setOvulation(ovulationTemp)
 
         setIsLoading(false)
-    }, [])
+    }, [cycleArray])
     
 
     useEffect(()=>{

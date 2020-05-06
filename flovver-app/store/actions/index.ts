@@ -23,3 +23,12 @@ export const setSharedUsers = (users:Array<any>):int.Action => ({
     payload:users
 })
 
+// SET CYCLES FROM SHARED USER
+export const setCycles = (user_id, cycles):int.Action => ({
+    type:actions.SET_USERS_CYCLES,
+    payload:{
+        user_id:user_id,
+        cycle:cycles
+    }
+})
+

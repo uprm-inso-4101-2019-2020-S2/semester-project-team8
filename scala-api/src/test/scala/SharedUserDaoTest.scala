@@ -42,6 +42,7 @@ trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
 
     val verify_1 = Await.result(get_shared_with_me(testUser1.id.get), Duration.Inf).head
     assert(verify_1.approved)
+    assert(verify_1.email == testUser2.email)
 
     // Approve request from first user
     val get_2 = Await.result(get_unapproved_requests(testUser2.id.get), Duration.Inf).head
@@ -50,7 +51,7 @@ trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
 
     val verify_2 = Await.result(get_shared_with_me(testUser2.id.get), Duration.Inf).head
     assert(verify_2.approved)
-    
+    assert(verify_2.email == testUser1.email)
     
   }
   

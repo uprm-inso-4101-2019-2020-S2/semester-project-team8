@@ -1,11 +1,21 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars';
 
 import * as COLORS from '../../styles/colors'
+import ChangePeriodPicker from './shared/ChangePeriodPicker';
 
 
 const ContentArea = ({markedDays}) => {
+    const [dayLongPress, setDayLongPress] = useState({})
+    const [show, setShow] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    const onDayLongPress = (day) => {
+        setDayLongPress(day)
+    }
+
+    const setShowWrapper = (action) => {if(action){setShow(true)}}
 
     return (
         <View style={styles.ContentContainer}>
@@ -17,6 +27,13 @@ const ContentArea = ({markedDays}) => {
                     }}
                     markedDates={markedDays}
                     markingType={'period'}
+                    onDayLongPress={(day) => {console.log('selected day', day)}}
+                />
+                <ChangePeriodPicker 
+                    setIsLoading={setIsLoading}
+                    show={show}
+                    setShow={setShowWrapper}
+                    dayLongPress={dayLongPress}
                 />
             </View>
             <View style={styles.LegendContainer} >

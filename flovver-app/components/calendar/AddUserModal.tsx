@@ -14,7 +14,7 @@ const AddUserModal = ({addUserModalVisible, setAddUserModalVisible, }) => {
             visible={addUserModalVisible}
         >
             <View style={styles.container}>
-                <View style={[styles.ContentContainer]}>
+                <View style={[styles.modalContainer]}>
 
                     <View style={styles.InputContainer}>
                         <TextInput 
@@ -29,8 +29,9 @@ const AddUserModal = ({addUserModalVisible, setAddUserModalVisible, }) => {
                     </View>
 
                     <View style={styles.ButtonsContainer}>
-                        <View style={styles.ButtonBubble}>
+                        
                             <TouchableOpacity
+                                style={styles.ButtonBubble}
                                 onPress={() => {console.log("user added :)")}}
                                 // if user exists, return "User added.",
                                 // else if user already added, return "User already added.",
@@ -38,14 +39,15 @@ const AddUserModal = ({addUserModalVisible, setAddUserModalVisible, }) => {
                             >
                                 <Text style={styles.textStyle}>ADD USER</Text>
                             </TouchableOpacity>
-                        </View>
-                        <View style={styles.ButtonBubble}>
+                        
+                        
                             <TouchableOpacity
                                 onPress={() => {setAddUserModalVisible(!addUserModalVisible)}}
+                                style={styles.ButtonBubble}
                             >
                                 <Text style={styles.textStyle}>GO BACK</Text>
                             </TouchableOpacity>
-                        </View>
+                        
                     </View>
 
                 </View>
@@ -61,12 +63,11 @@ const styles = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center", 
         flex:1,
-        backgroundColor: COLORS.WHITE,
-        elevation:10,
     },
 
     ContentContainer:{
-
+        borderRadius:60,
+        flex:1
     },
 
     InputContainer:{
@@ -74,18 +75,23 @@ const styles = StyleSheet.create({
     },
 
     ButtonsContainer:{
-        flex:1,
-        flexDirection:"row"
+        padding:10,
+        flexDirection:"row",
+        alignSelf:"flex-end",
+        
     },
 
     ButtonBubble:{
         borderWidth: .5,
+        borderRadius:100,
+        padding:10,
+        marginRight:10
     },
 
     textStyle:{
         fontFamily:"lato-regular",
         color:COLORS.DARK_GREY,
-        fontSize:10,
+        fontSize:12,
         letterSpacing: 4,
     },
 
@@ -94,12 +100,27 @@ const styles = StyleSheet.create({
         color:COLORS.WHITE,
         fontSize:10,
         letterSpacing: 4,
+        textAlign:"center",
+        borderRadius:100,
+        padding:6
     },
 
     InputStyle:{
         backgroundColor:COLORS.MID_BLUE,
-
+        width:150
     },
+
+    modalContainer:{
+        margin: 20,
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 20,
+        padding: 30,
+        justifyContent:"center",
+        alignItems: "center",
+        elevation:10,
+        flex:0.3
+    },
+
 
  
 })

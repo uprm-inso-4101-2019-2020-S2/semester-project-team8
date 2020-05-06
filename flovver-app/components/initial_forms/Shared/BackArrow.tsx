@@ -9,7 +9,8 @@ const BackArrow = ({ onPress, isWhite=false }) => (
         >
              {!isWhite&&<Image 
                     style={styles.backArrow}
-                    source={require('../../../images/ArrowIcon.png')} />}
+                    source={require('../../../images/ArrowIcon.png')} />
+                    }
         </TouchableOpacity>
 )
 
