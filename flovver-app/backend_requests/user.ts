@@ -50,3 +50,20 @@ export const addPeriod = async (token:string, cycle_info) => {
             return res.data
         }).catch(e => e.response)
 }
+
+
+export const updatePeriod = async (token:string, body) => {
+    const options = {
+        headers: { "Authorization":token }
+    }
+
+    return axios.put(
+        HOST + "menstrual/update",
+        body,
+        options
+    ).then(res => {
+        console.log(res)
+        return res.data
+    }).catch(e => e.response)
+    
+}

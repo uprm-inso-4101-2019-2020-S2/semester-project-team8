@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Modal, Switch, StyleSheet, Dimensions } f
 import * as COLORS from '../../styles/colors'
 import UserTypeModal from './ContentArea/UserTypeModal';
 import LogOutModal from './ContentArea/LogOutModal';
+import PermissionsModal from './ContentArea/PermissionsModal';
+import AddModal from './ContentArea/AddModal';
 
 const ContentArea = () => {
 
@@ -10,6 +12,8 @@ const ContentArea = () => {
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const [changeUserTypeModalVisible, setChangeUserTypeModalVisible] = useState(false);
     const [logOutModalVisible, setLogOutModalVisible] = useState(false)
+    const [permissionsModalVisible, setPermissionsModalVisible] = useState(false)
+    const [addModalVisible, setAddModalVisible] = useState(false)
 
     return (
         <View style={styles.ContentContainer}>
@@ -34,6 +38,30 @@ const ContentArea = () => {
                     />
                 </TouchableOpacity>
             </View> 
+            <View style={[styles.Items]}>
+                <TouchableOpacity
+                    onPress={() => {setAddModalVisible(true)}}
+                >
+                    <Text style={styles.textStyle}>ADD USER CALENDARS</Text>
+                    <AddModal 
+                        styles={styles}
+                        addModalVisible={addModalVisible}
+                        setAddModalVisible={setAddModalVisible}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={[styles.Items]}>
+                <TouchableOpacity
+                    onPress={() => {setPermissionsModalVisible(true)}}
+                >
+                    <Text style={styles.textStyle}>MANAGE CALENDAR PERMISSIONS</Text>
+                    <PermissionsModal 
+                        styles={styles}
+                        permissionsModalVisible={permissionsModalVisible}
+                        setPermissionsModalVisible={setPermissionsModalVisible}
+                    />
+                </TouchableOpacity>
+            </View>
             <View style={[styles.Items]}>
                 <TouchableOpacity
                     onPress={() => {setLogOutModalVisible(true)}}
@@ -130,6 +158,7 @@ const styles = StyleSheet.create({
 
     ContentContainer:{
         padding: 10
-    }
+    },
+    
  
 })

@@ -16,7 +16,7 @@ const SharedUserArea = () => {
             <View style={styles.HorizontalWhiteLine} />
             
             <View style={styles.UsersContainer}>
-                <Text style={{color:COLORS.WHITE, fontSize:15, letterSpacing:2, fontFamily:"lato-black"}}>SHARED USERS</Text>
+                <Text style={{color:COLORS.WHITE, fontSize:15, letterSpacing:3, fontFamily:"lato-black"}}>SHARED USERS</Text>
             </View>
 
             <View style={styles.ImageContainer} >
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
 
     UsersContainer: {
-        marginTop:10,
+        marginTop:30,
         flex:0.2
     },
 

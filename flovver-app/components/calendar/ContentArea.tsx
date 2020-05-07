@@ -1,39 +1,24 @@
 import React,{useState} from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Calendar } from 'react-native-calendars';
+import { View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native'
+
 
 import * as COLORS from '../../styles/colors'
 import ChangePeriodPicker from './shared/ChangePeriodPicker';
+import Loading from '../shared/Loading';
 
 
 const ContentArea = ({markedDays}) => {
-    const [dayLongPress, setDayLongPress] = useState({})
-    const [show, setShow] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
 
-    const onDayLongPress = (day) => {
-        setDayLongPress(day)
-    }
+    
+    const [isLoading, setIsLoading] = useState(false)
 
-    const setShowWrapper = (action) => {if(action){setShow(true)}}
 
     return (
         <View style={styles.ContentContainer}>
             <View>
-                <Calendar
-                    hideExtraDays={true}
-                    theme={{
-                        arrowColor: COLORS.MID_BLUE
-                    }}
-                    markedDates={markedDays}
-                    markingType={'period'}
-                    onDayLongPress={(day) => {console.log('selected day', day)}}
-                />
                 <ChangePeriodPicker 
+                    markedDays={markedDays}
                     setIsLoading={setIsLoading}
-                    show={show}
-                    setShow={setShowWrapper}
-                    dayLongPress={dayLongPress}
                 />
             </View>
             <View style={styles.LegendContainer} >
@@ -50,6 +35,9 @@ const ContentArea = ({markedDays}) => {
                     <Text style={styles.LegendText} >OVULATION</Text>
                 </View>
             </View>
+           
+            <Loading isVisible={isLoading} />
+            
         </View>
     )
 }

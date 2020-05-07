@@ -1,15 +1,21 @@
 import React from 'react'
-import { View, ActivityIndicator, StyleSheet, Dimensions, Image } from 'react-native'
+import { View, ActivityIndicator, StyleSheet, Dimensions, Image, Modal } from 'react-native'
 import { PINK } from '../../styles/colors'
 
-const Loading = () => (
-    <View style={styles.container}>
-            <Image 
-                    resizeMode="contain"
-                    style = {styles.image}
-                    source={require('../../images/FlovverLogo.png')} />
-            <ActivityIndicator size="large" color={PINK} />
-    </View>
+const Loading = ({isVisible}) => (
+    <Modal
+        visible={isVisible}
+        transparent={false}
+        animationType="fade"
+    >
+        <View style={styles.container}>
+                <Image 
+                        resizeMode="contain"
+                        style = {styles.image}
+                        source={require('../../images/FlovverLogo.png')} />
+                <ActivityIndicator size="large" color={PINK} />
+        </View>
+    </Modal>
 )
 
 const styles = StyleSheet.create({
