@@ -40,6 +40,39 @@ expo start
     docker-compose down
 ```
 
+# Deploying changes on the rest api:
+* after installing the heroku cli tool, log in
+```
+    heroku login
+```
+* build rest api
+```
+    ./build.sh
+```
+* push docker image
+```
+    cd ./scala-api
+    heroku container:push web -a flovver-api
+```
+* release
+```
+    heroku container:release web -a flovver-api
+```
+* check logs to check deployment status
+```
+    heroku logs -a flovver-api
+```
+
+# Accessing deployed DB:
+* Log in to heroku cli
+```
+    heroku login
+```
+* connect to db with heroku cli
+```
+    heroku pg:psql
+```
+
 # Recommended Text editors and IDEs:
 * Visual Studio Code with Docker plugin. It is great for developing typescript apps and has plugins for scala
 * Any text editor and a terminal
