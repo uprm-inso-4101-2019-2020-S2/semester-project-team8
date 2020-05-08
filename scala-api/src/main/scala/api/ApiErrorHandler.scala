@@ -11,5 +11,9 @@ trait ApiErrorHandler {
       extractUri { uri =>
         complete(HttpResponse(NotFound, entity = s"Invalid id: ${e.getMessage}"))
       }
+    case e: org.postgresql.util.PSQLException =>
+      extractUri { uri =>
+        complete(HttpResponse(409, entity = "database constraint error"))
+      }
   }
 }

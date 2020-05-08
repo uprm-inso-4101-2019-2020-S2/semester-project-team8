@@ -7,7 +7,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
+import utils.DatabaseConfig._
 //TODO: Work with utc and convert to appropiate timezones later
 object MenstrualDao extends BaseDao {
   
@@ -20,7 +20,6 @@ object MenstrualDao extends BaseDao {
         menstrual_cycle m JOIN calendar c ON m.calendar_id = c.id
         WHERE c.owner_id = ${id}
         ORDER BY m.bleed_start DESC;
-        ;
       """.as[MenstrualCycle] )
     }
 
@@ -60,6 +59,30 @@ object MenstrualDao extends BaseDao {
           SET bleed_start = ${new_data.bleed_start.get}
           WHERE id=${new_data.cycle_id};
 
+          UPDATE menstrual_cycle 
+          SET end_date = bleed_start + (
+            SELECT cycle_avg FROM users 
+            WHERE id=$user_id
+          ) * interval '1 day'
+          WHERE id = (
+            SELECT id FROM menstrual_cycle
+            WHERE calendar_id = (
+              SELECT id
+              FROM calendar
+              WHERE owner_id = $user_id 
+            ) ORDER BY bleed_start DESC
+              LIMIT 1
+          );
+
+          UPDATE users 
+          SET cycle_avg=(
+            select avg(end_date - bleed_start) as avg_days
+              from menstrual_cycle
+              where calendar_id = (
+                SELECT id FROM calendar WHERE owner_id=$user_id
+              )
+          ) WHERE id=$user_id
+
         """)
       }else{
         Future { 0 }
@@ -92,6 +115,27 @@ object MenstrualDao extends BaseDao {
     }
 
 
+    // -- CALCULATE NEW CYCLE AVG AND STORE IN USER
+    //             UPDATE users
+    //             SET cycle_avg = (cycle_avg/2 + (
+    //                 SELECT DATE_PART('day', (
+    //                     SELECT end_date FROM
+    //                         menstrual_cycle
+    //                     WHERE end_date = (
+    //                         SELECT bleed_start FROM menstrual_cycle
+    //                         WHERE id = ${new_cycle.cycle_id}
+    //                     ) - 1
+    //                 )::timestamp - (
+    //                     SELECT bleed_start FROM
+    //                         menstrual_cycle
+    //                     WHERE end_date = (
+    //                         SELECT bleed_start FROM menstrual_cycle
+    //                         WHERE id = ${new_cycle.cycle_id}
+    //                     ) - 1
+    //                 )::timestamp )/2 )
+    //             )
+    //             WHERE id = ${id};
+
     def add_period(new_cycle:AddCycle, id:Long) = {
 
       // TODO: Add user validation before updating
@@ -117,26 +161,19 @@ object MenstrualDao extends BaseDao {
                       WHERE id = ${new_cycle.cycle_id}
                       AND calendar_id = ${calendar.id};
 
-                -- CALCULATE NEW CYCLE AVG AND STORE IN USER
-                UPDATE users
-                SET cycle_avg = (cycle_avg/2 + (
-                    SELECT DATE_PART('day', (
-                        SELECT end_date FROM
-                            menstrual_cycle
-                        WHERE end_date = (
-                            SELECT bleed_start FROM menstrual_cycle
-                            WHERE id = ${new_cycle.cycle_id}
-                        ) - 1
-                    )::timestamp - (
-                        SELECT bleed_start FROM
-                            menstrual_cycle
-                        WHERE end_date = (
-                            SELECT bleed_start FROM menstrual_cycle
-                            WHERE id = ${new_cycle.cycle_id}
-                        ) - 1
-                    )::timestamp )/2 )
-                )
-                WHERE id = ${id};
+                
+
+                UPDATE users 
+                SET cycle_avg=(
+                  select avg(end_date - bleed_start) as avg_days
+                    from menstrual_cycle
+                    where calendar_id = ${calendar.id}
+                    AND bleed_start != (
+                      SELECT end_date + 1 * interval'1 day' FROM menstrual_cycle
+                      WHERE id = ${new_cycle.cycle_id}
+                    )
+                ) WHERE id=$id;
+
 
                 WITH mjoinu AS (SELECT *
                     FROM menstrual_cycle as m 

@@ -13,6 +13,7 @@ const userReducer = (state, action) => {
             if (action.payload && action.payload.cycle){
                 new_state = calcFertileList(new_state)
             }
+            console.log(new_state)
             return {
                 ...state,
                 user:new_state

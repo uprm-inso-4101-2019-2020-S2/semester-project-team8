@@ -401,6 +401,8 @@ project/plugins/project/
 .history
 .lib/
 
+.vscode/
+
 ### Scala ###
 *.metals
 .idea/

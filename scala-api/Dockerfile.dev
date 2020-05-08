@@ -12,4 +12,6 @@ WORKDIR /scala-api
 
 ADD scala-api /scala-api
 
+RUN sbt compile stage
+
 

@@ -14,6 +14,8 @@ import moment from 'moment'
 import * as requests from '../../../backend_requests/user'
 import * as actions from '../../../store/actions'
 
+import { useHistory } from 'react-router-native'
+
 const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
 
     // datetimepicker sleected date
@@ -31,6 +33,9 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
     // Available date Ranges
     const [minDate, setMinDate] = useState(new Date())
     const [maxDate, setMaxDate] = useState(new Date()) 
+
+    // history object for redirects
+    const history = useHistory()
 
     const onDayLongPress = ( {dateString} ) => {
         
@@ -50,6 +55,7 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
             else if(dateString === state.user.cycle[i].bleed_end) {
                 setSelectedId(state.user.cycle[i].id)
                 let m0 = moment.utc(state.user.cycle[i].bleed_start)
+                m0 = m0.add(2, 'days')
                 setMinDate(new Date(m0.format("YYYY-MM-DD")))
                 setStartSelected(false)
                 let m1 = moment.utc(state.user.cycle[i].bleed_end)
@@ -90,9 +96,17 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
 
             updatePeriod(state.token, body)
             .then( res => {
-                if (res && res.email) {
+                if(res && res.status && (res.status == 403 || res.status == 400) ) {
+                    console.log("Timed Out sign in again")
+                    dispatcher(actions.setUser(null))
+                    dispatcher(actions.setToken(null))
+                    dispatcher(actions.setSignIn(false))
+                    dispatcher(actions.setSharedUsers(null))
+                    history.push("/Login")
+                }
+                else if (res && res.data && res.data.email) {
                     console.log(res)
-                    dispatcher(actions.setUser(res))
+                    dispatcher(actions.setUser(res.data))
                 }else {
                     throw "error"
                 }

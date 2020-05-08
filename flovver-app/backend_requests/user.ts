@@ -5,7 +5,7 @@ export const getTokenAsync = async (id_token:string) =>  (
     axios.post(
         HOST + "token",
         {"id_token":id_token}
-        , { timeout:2000 }
+        , { timeout:10000 }
     ).then( res => (
         res.headers["access-token"]
     )).catch( e => null )
@@ -17,9 +17,9 @@ export const menstrualInit = async (token:string, menstrual_init) => {
         menstrual_init,
         { 
           headers: { "Authorization":token, "content-type":"application/json" },
-          timeout:2000
+          timeout:10000
         }
-    ).then(res => res.data )
+    ).then(res => res )
     .catch( e => e.response )
 }
 
@@ -31,9 +31,15 @@ export const getUserAsync = async (token:string) => {
             headers: { "Authorization":token }
         }
     ).then(res => (
-        res.data
+        res
     ))
-    .catch(e => e.response)
+    .catch(e => {
+        if(e.response){
+            return e.response
+        } else {
+            e
+        }
+    })
 }
 
 export const addPeriod = async (token:string, cycle_info) => {
@@ -47,7 +53,7 @@ export const addPeriod = async (token:string, cycle_info) => {
         options
         ).then(res => {
             console.log(res)
-            return res.data
+            return res
         }).catch(e => e.response)
 }
 
@@ -63,7 +69,7 @@ export const updatePeriod = async (token:string, body) => {
         options
     ).then(res => {
         console.log(res)
-        return res.data
+        return res
     }).catch(e => e.response)
     
 }

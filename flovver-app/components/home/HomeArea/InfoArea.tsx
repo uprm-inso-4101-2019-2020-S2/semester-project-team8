@@ -22,6 +22,8 @@ const InfoArea = ({ ovulation, fertile, isFertile, setIsLoading }) => {
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [state, dispatcher] = useContext(UserContext)
 
+    const history = useHistory()
+
     const selectId = (date:Date) => {
 
         const pt = 0.70 
@@ -51,12 +53,25 @@ const InfoArea = ({ ovulation, fertile, isFertile, setIsLoading }) => {
             cycle_id:t_id
         }).then( res => {
             console.log(res)
-            dispatcher(actions.setUser(res))
+            if(res && res.status && (res.status == 403 || res.status==401 || res.status == 400) ){
+                console.log("Timed Out sign in again")
+                    dispatcher(actions.setUser(null))
+                    dispatcher(actions.setToken(null))
+                    dispatcher(actions.setSignIn(false))
+                    dispatcher(actions.setSharedUsers(null))
+                    history.push("/Login")
+            }else if(res && res.status != 500 && res.data){
+                    dispatcher(actions.setUser(res.data))
+            }else{
+                throw "No internet or internal server eroror"
+            }
         }).then(()=>{setIsLoading(false)})
+        .catch(e => {console.log(e); setIsLoading(false)})
 
     }
 
-    return( <View style={styles.Events}> 
+    return( 
+        <View style={styles.Events}> 
             
         <View style={styles.nextEventsView}>
             <Text style={styles.nextEvents1} >{getAcronDateShort(ovulation).toUpperCase()}</Text>
@@ -79,6 +94,7 @@ const InfoArea = ({ ovulation, fertile, isFertile, setIsLoading }) => {
             <DateTimePicker 
                 value={selectedDate}
                 onChange={onChange}
+                maximumDate={new Date()}
             />)   
         }
 

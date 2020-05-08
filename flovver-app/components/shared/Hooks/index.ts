@@ -57,12 +57,16 @@ export const useUser = (isLoading, setIsLoading) => {
         else if(!state.user){
             getUserAsync(state.token)
             .then(res => {
-                if(res){
+                if(res && res.status && res.status != 200){
+                    setIsLoading(false)
+                    throw "Timed out sign in again"
+                }
+                else if(res && res.data){
                     dispatcher(actions.setUser(res))
-                    if (res.cycle.length === 0){
+                    if (res.data.cycle.length === 0){
                         history.push("/InitialForm")
                     }else{
-                        dispatcher(actions.setUser(calcFertileList(res)))
+                        dispatcher(actions.setUser(res.data))
                         setIsLoading(false)
                     }
                 } 
@@ -72,7 +76,7 @@ export const useUser = (isLoading, setIsLoading) => {
                 }
             }).catch(e => {history.push("/Login")})
         }else{
-            dispatcher(actions.setUser(calcFertileList({...state.user})))
+            dispatcher(actions.setUser(state.user))
             setIsLoading(false)
         }
     }, [])

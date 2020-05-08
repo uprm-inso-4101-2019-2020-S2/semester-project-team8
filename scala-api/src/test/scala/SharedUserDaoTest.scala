@@ -8,7 +8,7 @@ import slick.jdbc.PostgresProfile.api._
 
 
 trait SharedUserDaoTest extends BaseTestSpec with ScalaFutures {
-
+  import utils.DatabaseConfig._
   // adding functionality
   
   it should "add a new shared user" in {

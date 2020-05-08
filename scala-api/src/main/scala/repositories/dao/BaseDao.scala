@@ -12,9 +12,11 @@ import utils.DatabaseConfig
 import scala.concurrent.Future
 import models.definitions.{CalendarTable, MenstrualCycleTable, SharedUsersTable, UsersTable}
 import slick.jdbc.GetResult
+import utils.DatabaseConfig._
+
+trait BaseDao {
 
 
-trait BaseDao extends DatabaseConfig {
 
   val usersTable = TableQuery[UsersTable]
 

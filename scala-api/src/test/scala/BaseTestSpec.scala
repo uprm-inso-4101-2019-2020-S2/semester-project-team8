@@ -16,6 +16,8 @@ import scala.concurrent.duration.Duration
 
 trait BaseTestSpec extends AnyFlatSpec with Matchers with BaseDao with MigrationConfig with TokenRepository {
 
+  import utils.DatabaseConfig._
+
   println("Entered Here")
 
   protected val claimsUser1 = setClaims("test@test.com", Some(1), tokenExpirePeriodInDays)
@@ -25,7 +27,7 @@ trait BaseTestSpec extends AnyFlatSpec with Matchers with BaseDao with Migration
   // User 1 Persona
   protected val testUser1 = Users(
     email="test@test.com",
-    image_url="",
+    image_url="https://forums.oscommerce.com/uploads/monthly_2017_12/J_member_17188.png",
     id=Some(1),
     cycle_avg=0,
     isRegular=true
@@ -47,7 +49,7 @@ trait BaseTestSpec extends AnyFlatSpec with Matchers with BaseDao with Migration
   // Persona 2
   protected val testUser2 = Users(
     email="test@test2.com",
-    image_url="",
+    image_url="https://forums.oscommerce.com/uploads/monthly_2017_12/J_member_17188.png",
     id=Some(2),
     cycle_avg=0,
     isRegular=true

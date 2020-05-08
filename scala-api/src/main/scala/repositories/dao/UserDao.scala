@@ -7,6 +7,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import utils.DatabaseConfig._
 
 object UserDao extends BaseDao {
 
@@ -52,12 +53,14 @@ object UserDao extends BaseDao {
 
   }
 
-  def search_user(email:String):Future[Seq[Users]] = {
+  def search_user(email:String, id:Long):Future[Seq[Users]] = {
+      val t_email = email.toLowerCase()
       db.run(
         sql"""
           SELECT id, email, 'isRegular', cycle_avg, image_url 
           FROM users 
-          WHERE email LIKE ${"%"+email+"%"}
+          WHERE lower(email) LIKE ${"%"+t_email+"%"}
+          AND id != $id
         """.as[Users]
       )
   }

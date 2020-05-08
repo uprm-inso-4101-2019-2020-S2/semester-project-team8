@@ -46,6 +46,10 @@ const HomeArea = () => {
                 periodDateSet = true
             }
 
+            else if(today > new Date(cycleArray[i].bleed_end) ) {
+                continue
+            }
+
             else if (!periodDateSet && !inPeriodSet){
                 periodDateTemp = new Date(cycleArray[i].bleed_start)
                 inPeriodTemp = false
@@ -54,6 +58,7 @@ const HomeArea = () => {
         }
 
         for(let i = cycleInfo.length - 1; i>=0; i--){
+            
             if (today >= cycleInfo[i].fertile_start && today < cycleInfo[i].fertile_end && !fertile_set){
                 isFertileTemp = true
                 fertileTemp = cycleInfo[i].fertile_end
@@ -77,6 +82,10 @@ const HomeArea = () => {
             ovulationTemp = cycleInfo[0].ovulation_date
         }
 
+        let a = moment.utc(today.toISOString())
+        let b = moment.utc(periodDateTemp.toISOString())
+        setDisplayDay(b.diff(a, 'days'))
+
         setFertile(fertileTemp)
         setInPeriod(inPeriodTemp)
         setPeriodDate(periodDateTemp)
@@ -87,11 +96,9 @@ const HomeArea = () => {
     }, [cycleArray])
     
 
-    useEffect(()=>{
-        let a = moment.utc((new Date()).toISOString())
-        let b = moment.utc(periodDate.toISOString())
-        setDisplayDay(b.diff(a, 'days'))
-    }, [periodDate])
+    // useEffect(()=>{
+        
+    // }, [periodDate])
 
     if(isLoading){
         return(

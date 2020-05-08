@@ -5,6 +5,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import utils.DatabaseConfig._
 
 object SharedUsersDao extends BaseDao{
 

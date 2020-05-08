@@ -5,7 +5,7 @@ services:
     scala-api:
         build:
             context: .
-            dockerfile: ./scala-api/Dockerfiles/Dockerfile
+            dockerfile: ./scala-api/Dockerfile.dev
         ports:
             - '8080:8080'
         volumes:

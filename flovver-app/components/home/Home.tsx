@@ -21,7 +21,7 @@ const Home = () => {
     
     useUser(isLoading, setIsLoading)
     
-    if(isLoading) return <Loading />
+    if(isLoading) return <Loading isVisible={isLoading} />
 
     else{
         return (

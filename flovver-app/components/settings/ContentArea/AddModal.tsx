@@ -1,29 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
 import * as COLORS from '../../../styles/colors'
+
+import { HOST } from '../../../backend_requests/constants'
+
 import UserItem from './AddModal/UserItem'
+
+import { UserContext } from '../../../store/UserContext'
+
+import axios from 'axios'
 
 const AddModal = ({addModalVisible, styles, setAddModalVisible}) => {
     const [text, setText] = useState('SEARCH...')
+    const [usersData, setUsersData] = useState([])
+    const [state, dispatcher] = useContext(UserContext)
     
+    // axios specific
+    
+
+    useEffect( () => {
+
+        const CancelToken = axios.CancelToken;
+        const call1 = CancelToken.source()
+
+        const search = async () => {
+            const axios_options = {
+                headers:{ "Authorization":state.token },
+                cancelToken:call1.token
+            }
+    
+            await axios.get(HOST + "user/" + text,
+                axios_options
+            ).then(res => {
+                if(res.status == 200) { 
+                    console.log(res.data)
+                    setUsersData(res.data)
+                }
+            }).catch( thrown => {
+                if(axios.isCancel(thrown)) { console.log("Request Cancelled") }
+                else{setUsersData([])}
+            })
+
+        }
+
+        search()
+
+        return () => {
+            call1.cancel
+        }
+        
+    }, [text])
+    // end axios specific
+
     const DATA = [
         {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
             email:"dimelo@dimelo.com",
             image_url:"nose"
         },
         {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2',
             email:"dimelo@dimelo.com",
             image_url:"nose"
         },
         {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba3',
             email:"dimelo@dimelo.com",
             image_url:"nose"
         },
         {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba4',
             email:"dimelo@dimelo.com",
             image_url:"nose"
         },

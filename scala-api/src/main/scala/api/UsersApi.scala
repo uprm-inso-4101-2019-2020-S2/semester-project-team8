@@ -30,7 +30,7 @@ trait UsersApi extends TokenRepository with JsonMappings{
       } ~
       (path("user"/ Segment) & get){ email: String =>
         complete(
-          UserDao.search_user(email).map(_.toJson)
+          UserDao.search_user(email, claims("id").toLong).map(_.toJson)
         )
       }
 

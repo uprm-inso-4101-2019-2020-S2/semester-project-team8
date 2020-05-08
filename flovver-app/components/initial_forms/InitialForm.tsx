@@ -32,14 +32,15 @@ const InitialForm = ( { history } ) => {
             cycle_duration:parseInt(cycleLen)
         }).then(res => {
             if(res && res.status != 400){
-                dispatcher(actions.setUser(res));
+                dispatcher(actions.setUser(res.data));
                 history.push("/Home/Index")
-            }else{ throw "An error ocurred" } 
+            }
+            else{ throw "An error ocurred" } 
         }).catch(e => {})
     }
 
     if (isLoading) {
-        return <Loading />
+        return <Loading isVisible={isLoading}/>
     }
 
     return (<InitialFormView 
