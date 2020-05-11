@@ -73,3 +73,25 @@ export const updatePeriod = async (token:string, body) => {
     }).catch(e => e.response)
     
 }
+
+export const addSharedUser = async (token:string, id) => {
+
+    return axios.post(
+        HOST + "shared_users/add/"+id,
+        {},
+        {
+            headers: { "Authorization":token }
+        }
+    ).then(res => {
+        
+        return res
+    }).catch(e => {
+        if (e.response) {
+            console.log(e.response)
+            return e.response}
+        else { 
+            throw e
+        }
+    })
+
+}

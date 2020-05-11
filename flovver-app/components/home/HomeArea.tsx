@@ -9,6 +9,7 @@ import { useMenstrualData } from '../shared/Hooks'
 import * as COLORS from '../../styles/colors'
 
 import moment from 'moment'
+import Loading from '../shared/Loading'
 
 const HomeArea = () => {
     
@@ -57,6 +58,12 @@ const HomeArea = () => {
 
         }
 
+        cycleInfo.sort(function(a, b){
+            let m1 = moment.utc(a.fertile_start)
+            let m2 = moment.utc(b.fertile_start)
+            return m2.diff(m1, 'days')
+        })
+
         for(let i = cycleInfo.length - 1; i>=0; i--){
             
             if (today >= cycleInfo[i].fertile_start && today < cycleInfo[i].fertile_end && !fertile_set){
@@ -96,15 +103,9 @@ const HomeArea = () => {
     }, [cycleArray])
     
 
-    // useEffect(()=>{
-        
-    // }, [periodDate])
-
     if(isLoading){
         return(
-            <View style={{flex:8, justifyContent:"center", alignItems:"center", backgroundColor:COLORS.MID_BLUE}}>
-                <ActivityIndicator size="large" color={COLORS.PINK} />
-            </View>
+            <Loading isVisible={isLoading} />
         )
     }
 

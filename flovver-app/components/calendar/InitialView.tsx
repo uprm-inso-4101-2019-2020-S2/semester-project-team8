@@ -1,15 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Calendar } from 'react-native-calendars';
+
 import { UserContext } from '../../store/UserContext'
-import BackButton from '../initial_forms/Shared/BackArrow'
 import moment from 'moment'
 import * as COLORS from '../../styles/colors'
 
-import { View, StyleSheet, Text } from 'react-native';
-import BackArrow from '../initial_forms/Shared/BackArrow';
+import { View, StyleSheet } from 'react-native';
+import SwipeUpDown from 'react-native-swipe-up-down';
+
 import TitleArea from '../settings/TitleArea';
 import ContentArea from './ContentArea';
 import SharedUserArea from './SharedUserArea';
+import SharedTitleArea from './SharedUserArea/SharedTitleArea';
 
 const InitialView = ({history}) => {
     
@@ -88,12 +89,25 @@ const InitialView = ({history}) => {
             <View style={styles.container}>
 
                 <TitleArea 
-                title={"CALENDAR"}
-                history={history} />
+                    title={"CALENDAR"}
+                    history={history} />
 
                 <ContentArea markedDays={markedDays} />
 
-                <SharedUserArea />
+                <SwipeUpDown 
+                    itemFull={<SharedUserArea/>}
+                    itemMini={<View style={{alignItems:"center"}}>
+                        <SharedTitleArea />
+                    </View>}
+                    swipeHeight={100}
+                    style={{
+                        backgroundColor:COLORS.MID_BLUE,
+                        height:60,
+                    }}
+                    SWIPE_HEIGHT={100}
+                    />
+
+                {/* <SharedUserArea /> */}
                
             </View>
 

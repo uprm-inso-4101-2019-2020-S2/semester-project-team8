@@ -53,11 +53,12 @@ object SharedUsersDao extends BaseDao{
     db.run(sql"""
          SELECT su.id, su.users_id, su.calendar_id, u.email, u.image_url, su.approved, su.is_allowed
              FROM shared_users su
+              JOIN calendar c ON c.id = su.calendar_id
               JOIN users u
-              ON su.users_id = u.id
+              ON c.owner_id = u.id
               WHERE su.is_allowed = true
               AND su.approved = false
-              AND su.users_id = $id
+              AND su.users_id = $id;
          """.as[SharedUsersJoinedUser])
   }
 

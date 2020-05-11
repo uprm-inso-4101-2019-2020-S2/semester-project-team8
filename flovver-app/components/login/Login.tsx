@@ -23,6 +23,7 @@ const Login = ({history}) => {
             setLoading(true)
             const result = await Google.logInAsync({
               androidClientId: "716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com",
+              androidStandaloneAppClientId: "716374017659-2dcfq5mejhedsa26vji3skg5mi72e8dq.apps.googleusercontent.com",
               scopes: ["profile", "email"]
             })
             if (result.type === "cancel") {

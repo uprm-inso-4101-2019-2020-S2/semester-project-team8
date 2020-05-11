@@ -1,6 +1,6 @@
 package repositories
 
-import java.util.{Collections, NoSuchElementException}
+import java.util.{Arrays, NoSuchElementException}
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -20,7 +20,7 @@ object GoogleSignIn {
   def readIdToken(id_token:String): (String, Long) = {
 
     val verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
-      .setAudience(Collections.singletonList(sys.env("CLIENT_ID")))
+      .setAudience(Arrays.asList(sys.env("CLIENT_ID"), sys.env("STANDALONE_ID")))
       .build()
 
     val idToken = verifier.verify(id_token)

@@ -12,13 +12,6 @@ export const useMenstrualData = () => {
 
     const [state, dispatcher] = useContext(UserContext)
 
-    // useEffect(() => {
-    //     if(state.user){
-    //         if(state.user){
-    //             dispatcher(actions.setUser(calcFertileList(state.user)))
-    //         }
-    //     }
-    // }, []) 
  
     return [state.user.cycle, state.user.cycleInfo]
 
@@ -27,6 +20,7 @@ export const useMenstrualData = () => {
 
 export const calcFertileList = (res) => {
     const newState = [];
+    
     res.cycle.map( (cycle) => {
         newState.push({
             fertile_start:addDays(10, new Date(cycle.bleed_start)),

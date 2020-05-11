@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
         color:COLORS.DARK_GREY,
         fontSize:12,
         letterSpacing: 4,
+        
     },
 
     InputTextStyle:{

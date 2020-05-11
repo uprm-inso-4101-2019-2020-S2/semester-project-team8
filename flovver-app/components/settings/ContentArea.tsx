@@ -42,7 +42,7 @@ const ContentArea = () => {
                 <TouchableOpacity
                     onPress={() => {setAddModalVisible(true)}}
                 >
-                    <Text style={styles.textStyle}>ADD USER CALENDARS</Text>
+                    <Text style={styles.textStyle}>ADD USER TO YOUR CALENDAR</Text>
                     <AddModal 
                         styles={styles}
                         addModalVisible={addModalVisible}
@@ -57,8 +57,8 @@ const ContentArea = () => {
                     <Text style={styles.textStyle}>MANAGE CALENDAR PERMISSIONS</Text>
                     <PermissionsModal 
                         styles={styles}
-                        permissionsModalVisible={permissionsModalVisible}
-                        setPermissionsModalVisible={setPermissionsModalVisible}
+                        permissionModalVisible={permissionsModalVisible}
+                        setPermissionModalVisible={setPermissionsModalVisible}
                     />
                 </TouchableOpacity>
             </View>

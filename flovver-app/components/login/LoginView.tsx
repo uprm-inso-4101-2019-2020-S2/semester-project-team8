@@ -24,7 +24,7 @@ const LoginView = ({isLoading, onPress}) => (
                 </Text>
         </View>
     ):(
-        <Loading />   
+        <Loading isVisible={isLoading}/>   
     )
 )
 

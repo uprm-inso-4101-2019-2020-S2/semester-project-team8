@@ -7,7 +7,7 @@ services:
             context: .
             dockerfile: ./scala-api/Dockerfile.dev
         ports:
-            - '8080:8080'
+            - '9000:9000'
         volumes:
             - './scala-api:/scala-api'
         command: >
@@ -16,6 +16,7 @@ services:
             - SECRET_KEY=foo
             - DEBUG=1
             - CLIENT_ID=716374017659-76kpha4mqm82083hj8krgea83e2d03oo.apps.googleusercontent.com
+            - STANDALONE_ID=716374017659-2dcfq5mejhedsa26vji3skg5mi72e8dq.apps.googleusercontent.com
             - ENV=DEVELOPMENT
             - PORT=8080
             - DATABASE_URL=postgres://postgres:supersecretpassword@db:5432/app

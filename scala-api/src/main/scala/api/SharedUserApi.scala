@@ -27,7 +27,7 @@ trait SharedUserApi extends TokenRepository with JsonMappings {
         complete(
           SharedUsersDao.get_shared_with_me(claims("id").toLong)
         )
-      } // Give access on approval to you calendar
+      } ~ // Give access on approval to you calendar
       (path("shared_users"/"add"/LongNumber) & post){ record_id =>
         
         complete(
@@ -50,16 +50,13 @@ trait SharedUserApi extends TokenRepository with JsonMappings {
         complete(
           SharedUsersDao.remove_shared_user(record_id, claims("id").toLong)
             .flatMap( _ =>
-              SharedUsersDao.get_shared_users(record_id).map(_.toJson)
+              SharedUsersDao.get_shared_users(claims("id").toLong).map(_.toJson)
             )
         )
       } ~ // Get all unapproved calendar share request
       (path("shared_users"/"unapproved") & get) {
         complete(
-          SharedUsersDao.get_unapproved_requests(claims("id").toLong)
-            .flatMap(_ =>
-              SharedUsersDao.get_shared_with_me(claims("id").toLong)
-            )
+          SharedUsersDao.get_unapproved_requests(claims("id").toLong).map(_.toJson)
         )
       } ~ // Approve shared request
       (path("shared_users"/"approve"/LongNumber) & post ) { record_id =>
