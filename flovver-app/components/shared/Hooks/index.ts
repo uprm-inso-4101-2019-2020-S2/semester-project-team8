@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react'
+import {Alert} from 'react-native'
 
 import { UserContext } from '../../../store/UserContext'
 import * as actions from '../../../store/actions'
@@ -7,6 +8,8 @@ import { useHistory } from 'react-router-native'
 
 import { getUserAsync } from '../../../backend_requests/user'
 import { addDays, diffDays } from '../SharedMethods'
+
+
 
 export const useMenstrualData = () => {
 
@@ -17,22 +20,31 @@ export const useMenstrualData = () => {
 
 }
 
+export const calcFertileListHelper = (cycles) => {
 
-export const calcFertileList = (res) => {
     const newState = [];
-    
-    res.cycle.map( (cycle) => {
+    cycles.map( (cycle) => {
+
+
+
         newState.push({
             fertile_start:addDays(10, new Date(cycle.bleed_start)),
             fertile_end:addDays(16, new Date(cycle.bleed_start)),
             ovulation_date:addDays(diffDays(new Date(cycle.bleed_start), new Date(cycle.end_date))/2, new Date(cycle.bleed_start))
         })
     })
+    return newState
+
+}
+
+export const calcFertileList = (res) => {
+    
     return {
         ...res,
-        cycleInfo:[...newState]
+        cycleInfo:[...calcFertileListHelper(res.cycle)]
     }
 }
+
 
 // Custom hook to tell tell when user has been fetched from backend 
 // Think of adding last updated field to state to see if you have to update user again 
@@ -51,12 +63,8 @@ export const useUser = (isLoading, setIsLoading) => {
         else if(!state.user){
             getUserAsync(state.token)
             .then(res => {
-                if(res && res.status && res.status != 200){
-                    setIsLoading(false)
-                    throw "Timed out sign in again"
-                }
-                else if(res && res.data){
-                    dispatcher(actions.setUser(res))
+                if(res && res.data && res.status === 200){
+                    dispatcher(actions.setUser(res.data))
                     if (res.data.cycle.length === 0){
                         history.push("/InitialForm")
                     }else{
@@ -64,11 +72,21 @@ export const useUser = (isLoading, setIsLoading) => {
                         setIsLoading(false)
                     }
                 } 
+            }).catch(e => {
+                if(e && e.status && (e.status === 403 || e.status === 401 || e.status === 400)){
+                    dispatcher(actions.setUser(null))
+                    dispatcher(actions.setToken(null))
+                    dispatcher(actions.setSignIn(false))
+                    dispatcher(actions.setSharedUsers([]))
+                    Alert.alert("Timed out, please sign in again")
+                }
                 else { 
                     setIsLoading(false)
-                    throw "Unable to fetch user"
+                    Alert.alert("Unable to fetch user")
                 }
-            }).catch(e => {history.push("/Login")})
+                history.push("/Login")
+
+            })
         }else{
             dispatcher(actions.setUser(state.user))
             setIsLoading(false)

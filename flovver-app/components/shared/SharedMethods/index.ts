@@ -8,10 +8,10 @@ export const addDays = (days:number, date:Date) => {
 }
 
 export const diffDays = (date1:Date, date2:Date) => {
-    let a = moment.utc(date2.toISOString())
-    let b = moment.utc(date1.toISOString())
+    let a = moment.utc(date2.toISOString().split("T")[0])
+    let b = moment.utc(date1.toISOString().split("T")[0])
 
-    return b.diff(a, 'days')
+    return a.diff(b, 'days')
 }
 
 export const getAcronDateShort = (date) => {

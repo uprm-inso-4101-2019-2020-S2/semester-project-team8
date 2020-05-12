@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native'
 import * as COLORS from '../../../styles/colors'
+import SharedUserProfile from './SharedUserProfile'
 
 const SharedUserItem = ({email, image_url, id, onPress, whiteFont}) => {
 
+    const [profileVisible, setProfileVisible] = useState(false)
 
     const userName = () => {
         if(!whiteFont){ 
@@ -27,16 +29,24 @@ const SharedUserItem = ({email, image_url, id, onPress, whiteFont}) => {
 
     if (whiteFont) {
         return(
-            <TouchableOpacity style={styles.IndContainer} >
+            <TouchableOpacity style={styles.IndContainer} 
+                onPress={()=>{setProfileVisible(true)}}
+            >
                 <View>
                     < Image source={{uri:image_url}} style={styles.Image} />
                 </View>
                 {userName()}
                     <TouchableOpacity
-                        onPress={onPress}
                     >
                     {ImageChoose()}
                     </TouchableOpacity>
+                    <SharedUserProfile 
+                        isVisible={profileVisible}
+                        setIsVisible={setProfileVisible}
+                        email={email}
+                        image_url={image_url}
+                        id={id}
+                    />
             </TouchableOpacity>
         )
     }

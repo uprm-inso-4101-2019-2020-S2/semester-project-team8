@@ -1,25 +1,39 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
 import * as COLORS from '../../../../styles/colors'
 import * as requests from '../../../../backend_requests/user' 
 import { UserContext } from '../../../../store/UserContext'
+import * as actions from '../../../../store/actions'
+import { useHistory } from 'react-router-native'
 
 const UserItem = ({id, email, image_url, setIsLoading}) => {
 
     const [state, dispatcher] = useContext(UserContext)
+    const history = useHistory()
 
     const addUser = async () => {
         setIsLoading(true)
         requests.addSharedUser(state.token, id)
         .then(res => {
-            if(res.status && res.status === 200){
+            if(res && res.status && res.status === 200){
                 Alert.alert("Added successfully")
-            }else if(res.status !== 200){
-                Alert.alert("Error adding")
             }
             setIsLoading(false)
         })
-        .catch(e => {Alert.alert(e)})
+        .catch(e => {
+            if(e && e.status && (e.status === 403 || e.status === 401 || e.status === 400)){
+                dispatcher(actions.setUser(null))
+                dispatcher(actions.setToken(null))
+                dispatcher(actions.setSignIn(false))
+                dispatcher(actions.setSharedUsers([]))
+                Alert.alert("Error adding this user")
+            }
+            else{
+                setIsLoading(false)
+                Alert.alert("Timed out, please sign in again")
+            }
+            history.push("/Login")
+        })
     }
 
     return (

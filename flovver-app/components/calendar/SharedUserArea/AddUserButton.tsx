@@ -16,7 +16,7 @@ import axios from 'axios'
 import Loading from '../../shared/Loading'
 import SharedUserItem from './SharedUserItem'
 
-const AddUserButton = ({addUserButtonModalVisible, setAddUserButtonModalVisible, setPrevUserData}) => {
+const AddUserButton = ({addUserButtonModalVisible, setAddUserButtonModalVisible }) => {
     const [usersData, setUsersData] = useState([])
     const [state, dispatcher] = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
@@ -64,7 +64,7 @@ const AddUserButton = ({addUserButtonModalVisible, setAddUserButtonModalVisible,
                 dispatcher(actions.setSignIn(false))
                 history.push("/Login")  
             }else if(res.status === 200 ){
-                setPrevUserData(res.data)
+                dispatcher(actions.setSharedUsers(res.data))
                 setAddUserButtonModalVisible(false)
             }
             setIsLoading(false)

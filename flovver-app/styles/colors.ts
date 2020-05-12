@@ -20,3 +20,8 @@ export const PEARL_WHITE = "#F6F6F6";
 
 export const WHITE = "#FFFFFF";
 
+export const DARK_PINK = "FF6398";
+
+export const DARK_PINK_RGBA = "rgba(255, 99, 152, 1)";
+
+

@@ -33,7 +33,7 @@ const AddModal = ({addModalVisible, styles, setAddModalVisible}) => {
             await axios.get(HOST + "user/" + text,
                 axios_options
             ).then(res => {
-                if(res.status == 200) { 
+                if(res.status === 200) { 
                     setUsersData(res.data)
                 }
             }).catch( thrown => {
@@ -50,6 +50,12 @@ const AddModal = ({addModalVisible, styles, setAddModalVisible}) => {
         }
         
     }, [text])
+
+    useEffect(() => {
+        if(addModalVisible){
+            setText("SEARCH...")
+        }
+    }, [addModalVisible])
 
     useEffect(()=>{
         if(isLoading) { setText("SEARCH...") }
@@ -74,6 +80,7 @@ const AddModal = ({addModalVisible, styles, setAddModalVisible}) => {
                             maxLength={50} 
                             defaultValue=""
                             onChangeText={text => setText(text)}
+                            onFocus={()=>{setText("")}}
                             value={text}
                             disableFullscreenUI={true}
                     />

@@ -30,6 +30,18 @@ const userReducer = (state, action) => {
                 ...state,
                 isSignedIn:action.payload
             }
+        
+        case constants.SET_USERS:
+            return {
+                ...state,
+                sharedUsers:action.payload    
+            }
+
+        case constants.SET_USERS_CYCLES:
+            return {
+                ...state,
+                sharedCycles:action.payload
+            }
 
         default:
             return state

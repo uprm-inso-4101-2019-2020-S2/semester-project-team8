@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions, Image, Alert } from 'react-native'
-import BackArrow from '../initial_forms/Shared/BackArrow'
+
 import * as COLORS from '../../styles/colors'
-import AddUserModal from './AddUserModal'
+
 import AddUserButton from './SharedUserArea/AddUserButton'
 
 import SharedTitleArea from './SharedUserArea/SharedTitleArea'
@@ -14,11 +14,11 @@ import {UserContext} from '../../store/UserContext'
 import * as actions from '../../store/actions'
 import { useHistory } from 'react-router-native'
 
+
 const SharedUserArea = () => {
 
     const [ addVisible, setAddVisible ] = useState(false)
-    const [state, dispatcher] = useContext(UserContext)
-    const[ userData, setUserData ] = useState([])
+    const [ state, dispatcher ] = useContext(UserContext)
     const history = useHistory()
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const SharedUserArea = () => {
         { headers:{ "Authorization":state.token } }
         ).then(res => {
             if(res.status === 200){
-                setUserData(res.data)
+                dispatcher(actions.setSharedUsers(res.data))
             }
         }).catch(e => {
             if(e.status && e.status === 401 || e.status === 403){
@@ -50,7 +50,7 @@ const SharedUserArea = () => {
 
             <FlatList 
                 style={styles.FlatListStyle}
-                data={userData}
+                data={state.sharedUsers}
                 renderItem={({item}) => (
                     <SharedUserItem 
                         email={item.email} 
@@ -67,7 +67,6 @@ const SharedUserArea = () => {
             <AddUserButton 
                 addUserButtonModalVisible={addVisible}
                 setAddUserButtonModalVisible={setAddVisible}
-                setPrevUserData={setUserData}
             />
         </View>
     )

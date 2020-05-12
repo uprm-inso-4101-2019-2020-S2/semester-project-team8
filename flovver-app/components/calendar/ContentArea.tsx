@@ -1,40 +1,27 @@
 import React,{useState} from 'react'
-import { View, Text, StyleSheet, Modal, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 
 
-import * as COLORS from '../../styles/colors'
 import ChangePeriodPicker from './shared/ChangePeriodPicker';
 import Loading from '../shared/Loading';
-
+import ColorLegend from './shared/ColorLegend';
+import * as COLORS from '../../styles/colors'
 
 const ContentArea = ({markedDays}) => {
-
     
     const [isLoading, setIsLoading] = useState(false)
 
-
     return (
         <View style={styles.ContentContainer}>
-            <View>
-                <ChangePeriodPicker 
-                    markedDays={markedDays}
-                    setIsLoading={setIsLoading}
-                />
-            </View>
-            <View style={styles.LegendContainer} >
-                <View style={styles.CircleContainer}>
-                    <View style={[styles.Circle, styles.PeriodCircle]} />
-                    <Text style={[styles.LegendText,{marginLeft:-8}]} >PERIOD</Text>
-                </View>
-                <View style={styles.CircleContainer} >
-                    <View style={[styles.Circle, styles.FertileCircle]}/>
-                    <Text style={[styles.LegendText,{marginLeft:-8}]}  >FERTILE</Text>
-                </View>
-                <View style={styles.CircleContainer} >
-                    <View style={[styles.Circle, styles.OvulationCircle]}/>
-                    <Text style={styles.LegendText} >OVULATION</Text>
-                </View>
-            </View>
+            
+            <ChangePeriodPicker 
+                markedDays={markedDays}
+                setIsLoading={setIsLoading}
+            />
+
+            <ColorLegend />
+
+            <Text style={styles.textStyle}>Press and hold the start date or end {"\n"} date of your period to edit</Text>
            
             <Loading isVisible={isLoading} />
             
@@ -49,43 +36,16 @@ const styles = StyleSheet.create({
 
     ContentContainer:{
         marginTop:50,
-        paddingLeft:20,
-        paddingRight:20,
+        paddingLeft:10,
+        paddingRight:10,
         flex:6,
     },
 
-    LegendContainer:{
-        paddingTop:25,
-        flexDirection:"row",
-        justifyContent:"space-around",
-    },
-
-    CircleContainer:{
-        flexDirection:"row",
-        justifyContent:"space-evenly",
-        flex:1
-    },
-
-    Circle:{
-        height:13,
-        width:13,
-        borderRadius:100,
-    },
-
-    LegendText:{
-        marginTop:-3
-    },
-
-    PeriodCircle:{
-        backgroundColor:COLORS.PINK
-    },
-
-    FertileCircle:{
-        backgroundColor:COLORS.YELLOW
-    },
-    
-    OvulationCircle:{
-        backgroundColor:COLORS.ORANGE
+    textStyle:{
+        fontSize:12,
+        color: COLORS.LIGHT_GREY,
+        textAlign:"center",
+        marginTop:10
     }
 
 })

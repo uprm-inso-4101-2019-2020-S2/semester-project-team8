@@ -11,7 +11,6 @@ import { updatePeriod } from '../../../backend_requests/user'
 
 import moment from 'moment'
 
-import * as requests from '../../../backend_requests/user'
 import * as actions from '../../../store/actions'
 
 import { useHistory } from 'react-router-native'
@@ -96,22 +95,25 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
 
             updatePeriod(state.token, body)
             .then( res => {
-                if(res && res.status && (res.status == 403 || res.status == 400) ) {
-                    console.log("Timed Out sign in again")
-                    dispatcher(actions.setUser(null))
-                    dispatcher(actions.setToken(null))
-                    dispatcher(actions.setSignIn(false))
-                    dispatcher(actions.setSharedUsers(null))
-                    history.push("/Login")
-                }
-                else if (res && res.data && res.data.email) {
+                if (res && res.status === 200 && res.data && res.data.email) {
                     console.log(res)
                     dispatcher(actions.setUser(res.data))
                 }else {
                     throw "error"
                 }
             }).then(() => { setIsLoading(false) } )
-            .catch(e => setIsLoading(false) )
+            .catch(e => {
+                if(e && e.status && (e.status == 403 || e.status == 400) ) {
+                    console.log("Timed Out sign in again")
+                    dispatcher(actions.setUser(null))
+                    dispatcher(actions.setToken(null))
+                    dispatcher(actions.setSignIn(false))
+                    dispatcher(actions.setSharedUsers(null))
+                    history.push("/Login")
+                } else{
+                    setIsLoading(false) 
+                }   
+            })
 
         }else{
             setShow(false)

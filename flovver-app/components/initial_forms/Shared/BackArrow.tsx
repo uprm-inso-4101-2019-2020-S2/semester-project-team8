@@ -5,6 +5,7 @@ import * as COLORS from '../../../styles/colors'
 
 const BackArrow = ({ onPress, isWhite=false }) => (
         <TouchableOpacity
+            style={{padding:10}}
             onPress = {()=>{onPress()}}
         >
              {!isWhite&&<Image 

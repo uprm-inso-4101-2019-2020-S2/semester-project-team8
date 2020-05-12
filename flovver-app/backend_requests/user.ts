@@ -20,7 +20,7 @@ export const menstrualInit = async (token:string, menstrual_init) => {
           timeout:10000
         }
     ).then(res => res )
-    .catch( e => e.response )
+    .catch( e => {throw e} )
 }
 
 
@@ -33,12 +33,12 @@ export const getUserAsync = async (token:string) => {
     ).then(res => (
         res
     ))
-    .catch(e => {
-        if(e.response){
-            return e.response
-        } else {
-            e
-        }
+    .catch(e => { {throw e}
+        // if(e.response){
+        //     return e.response
+        // } else {
+        //     e
+        // }
     })
 }
 
@@ -54,7 +54,7 @@ export const addPeriod = async (token:string, cycle_info) => {
         ).then(res => {
             console.log(res)
             return res
-        }).catch(e => e.response)
+        }).catch(e => {throw e})
 }
 
 
@@ -70,7 +70,7 @@ export const updatePeriod = async (token:string, body) => {
     ).then(res => {
         console.log(res)
         return res
-    }).catch(e => e.response)
+    }).catch(e => {throw e})
     
 }
 
@@ -85,13 +85,14 @@ export const addSharedUser = async (token:string, id) => {
     ).then(res => {
         
         return res
-    }).catch(e => {
-        if (e.response) {
-            console.log(e.response)
-            return e.response}
-        else { 
-            throw e
-        }
+    }).catch(e => {{throw e}
+        
+        // if (e.response) {
+        //     console.log(e.response)
+        //     return e.response}
+        // else { 
+        //     throw e
+        // }
     })
 
 }

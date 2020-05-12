@@ -35,7 +35,7 @@ object UserDao extends BaseDao {
 
       ( (u ,c) , m) <-
       query1 joinLeft menstrualTable.sortBy(_.bleed_start.desc) on (
-        _._2.id === _.calendar_id) take 3
+        _._2.id === _.calendar_id) take 5
 
     } yield (u, m)
 

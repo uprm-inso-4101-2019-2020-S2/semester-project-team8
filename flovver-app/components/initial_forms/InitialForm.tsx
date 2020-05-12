@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {Alert} from 'react-native'
 
 import { UserContext } from '../../store/UserContext'
 import * as actions from '../../store/actions'
@@ -31,12 +32,24 @@ const InitialForm = ( { history } ) => {
             bleed_duration:parseInt(periodDuration),
             cycle_duration:parseInt(cycleLen)
         }).then(res => {
-            if(res && res.status != 400){
+            if(res && res.status === 200 && res.data){
                 dispatcher(actions.setUser(res.data));
                 history.push("/Home/Index")
             }
-            else{ throw "An error ocurred" } 
-        }).catch(e => {})
+        }).catch(e => {
+            
+            if (e && e.status && (e.status === 403 || e.status === 401 || e.status === 400)){
+                dispatcher(actions.setUser(null))
+                dispatcher(actions.setToken(null))
+                dispatcher(actions.setSignIn(false))
+                dispatcher(actions.setSharedUsers([]))
+                Alert.alert("Session Expired")
+            }
+            else{
+                Alert.alert("An error ocurred make sure you have internet connection")
+            }
+
+        })
     }
 
     if (isLoading) {

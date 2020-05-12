@@ -91,7 +91,7 @@ const HomeArea = () => {
 
         let a = moment.utc(today.toISOString())
         let b = moment.utc(periodDateTemp.toISOString())
-        setDisplayDay(b.diff(a, 'days'))
+        setDisplayDay(b.diff(a, 'days') + 1)
 
         setFertile(fertileTemp)
         setInPeriod(inPeriodTemp)

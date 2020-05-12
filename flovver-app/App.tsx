@@ -7,11 +7,12 @@ import Store from './store/Store'
 import Login from './components/login/Login';
 import InitialForm from './components/initial_forms/InitialForm'
 import Home from './components/home/Home'
-import InitialView from './components/calendar/InitialView'
 import FontLoad from './components/shared/FontLoad'
+import { StatusBar } from 'react-native';
 
 const App = () => (
     <Store>
+      <StatusBar hidden={true} />
       <FontLoad>
         <NativeRouter>
           <Switch> 

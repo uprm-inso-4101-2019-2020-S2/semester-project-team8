@@ -1,56 +1,20 @@
 import React, {useState} from 'react'
-import BackArrow from '../initial_forms/Shared/BackArrow'
-import { Text, View, StyleSheet, Image, Dimensions, 
-        Switch, Button, TouchableOpacity, Modal } from 'react-native'
+
+import { Text, View, StyleSheet } from 'react-native'
 
 import * as COLORS from '../../styles/colors'
-import * as scale from 'd3-scale'
-import { BarChart, YAxis, XAxis, Grid} from 'react-native-svg-charts';
+
+import ChartInfo from './ChartInfo'
 
 import TitleArea from '../settings/TitleArea'
+
+import { UserContext } from '../../store/UserContext'
 
 
 const InitialView = ({history}) => {
 
     
-    const data = [
-        {
-            value: 50,
-            label: 'One',
-        },
-        {
-            value: 10,
-            label: 'Two',
-        },
-        {
-            value: 40,
-            label: 'Three',
-        },
-        {
-            value: 95,
-            label: 'Four',
-        },
-        {
-            value: 85,
-            label: 'Five',
-        },
-    ]
-
-    // const CUT_OFF = 50
-    // const Labels = ({  x, y, bandwidth, data }) => (
-    //     data.map((value, index) => (
-    //         <Text
-    //             key={ index }
-    //             x={ value > CUT_OFF ? x(0) + 10 : x(value) + 10 }
-    //             y={ y(index) + (bandwidth / 2) }
-    //             fontSize={ 14 }
-    //             fill={ value > CUT_OFF ? 'white' : 'black' }
-    //             alignmentBaseline={ 'middle' }
-    //         >
-    //             {value}
-    //         </Text>
-    //     ))
-    // )
+    
 
     return(
 
@@ -58,55 +22,18 @@ const InitialView = ({history}) => {
             <TitleArea 
                 history={history}
                 title="GRAPHS AND REPORTS"
+                backAction={null}
             />
             <View style={styles.PeriodContainer}>
                 <View style={styles.PeriodTitle}>
                     <Text style={styles.textStyle}>PERIOD LENGTH</Text>
                 </View>
                     <View style={styles.PeriodInfo}>
-                        <YAxis
-                            data={data}
-                            contentInset={{top: 20}}
-                            yAccessor={({ index }) => index}
-                            svg={{
-                                fill: 'grey',
-                                fontSize: 10,
-                            }}
-                            scale={scale.scaleBand}
-                            numberOfTicks={10}
-                            formatLabel={(days) => `${days}`}
-                        />
-                        <BarChart 
-                            style={styles.PeriodChart}
-                            yAccessor={({ item }) => item.value}
-                            
-                            data={data}
-                            svg={{fill:COLORS.MID_BLUE}}
-                            contentInset={{top: 10}}
-                            gridMin={0}
-                            // horizontal={false}
-                            
-                        >
-                            <Grid direction={Grid.Direction.VERTICAL}/>
-                            {/* <Labels/> */}
-                        </BarChart>
-                        {/* <XAxis
-                            data={data}
-                            contentInset={{left:10}}
-                            xAccessor={({ index }) => index}
-                            svg={{
-                                fill: 'grey',
-                                fontSize: 10,
-                            }}
-                            scale={scale.scaleBand}
-                            numberOfTicks={10}
-                            formatLabel={(days) => `${days}`}  
-                        /> */}
-                        {/* X axis: days/duration, Y axis: start date */}
+                        <ChartInfo forPeriod={true}></ChartInfo>
                     </View>
                 
                 <View style={styles.AveragePeriodLength}>
-                    <Text>YOUR AVERAGE PERIOD LENGTH: [X DAYS]</Text>
+                    <Text style={styles.averageTextStyle}>YOUR AVERAGE PERIOD LENGTH: [X DAYS]</Text>
                 </View>
             </View>
             <View style={styles.CycleContainer}>
@@ -114,10 +41,10 @@ const InitialView = ({history}) => {
                     <Text style={styles.textStyle}>CYCLE LENGTH</Text>
                 </View>
                 <View style={styles.CycleChart}>
-                    
+                    <ChartInfo forPeriod={false}></ChartInfo>
                 </View>
                 <View style={styles.AverageCycleLength}>
-                    <Text>YOUR AVERAGE CYCLE LENGTH: [X DAYS]</Text>
+                    <Text style={styles.averageTextStyle}>YOUR AVERAGE CYCLE LENGTH: [X DAYS]</Text>
                 </View>
             </View>
 
@@ -134,10 +61,21 @@ const styles = StyleSheet.create({
     textStyle:{
         fontSize:16,
         letterSpacing:2,
-        marginTop:10,
-        marginLeft:15,
+        marginTop:5,
+        marginBottom:5,
         fontFamily:"lato-regular",
-        color:COLORS.DARK_GREY
+        color:COLORS.DARK_GREY,
+        textAlign:'center'
+    },
+
+    averageTextStyle:{
+        fontSize:14,
+        letterSpacing:2,
+        marginTop:5,
+        marginBottom:5,
+        fontFamily:"lato-regular",
+        color:COLORS.DARK_BLUE,
+        textAlign:'center'
     },
 
     container:{
