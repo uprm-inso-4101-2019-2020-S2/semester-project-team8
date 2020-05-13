@@ -33,4 +33,4 @@
 * /styles - Contains the color pallet used in the application.
 
 # Frontend State Diagram
-![image](../Documents/Diagrams/Flovver-Frontend-State-Diagram-2.0.png)
+![image](../Documents/Diagrams/Flovver-Frontend-State-Diagram-2.0.jpg)
