@@ -58,14 +58,6 @@ const ChartInfo = ({forPeriod}) => {
 
     }, [])
     
-    const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-          {
-            data: [20, 45, 28, 80, 99, 43]
-          }
-        ]
-      };
 
     const chartConfig= forPeriod?{
         backgroundColor: COLORS.DARK_GREY,
@@ -83,7 +75,7 @@ const ChartInfo = ({forPeriod}) => {
             style={{paddingTop:10}}
             data={cycleData}
             width={Dimensions.get("screen").width}
-            height={300}
+            height={Dimensions.get("screen").height * 0.30}
             yAxisLabel=""
             fromZero={true}
             chartConfig={chartConfig}
@@ -94,81 +86,3 @@ const ChartInfo = ({forPeriod}) => {
 }
 
 export default ChartInfo
-// const data = [
-//     {
-//         value: 50,
-//         label: 'One',
-//     },
-//     {
-//         value: 10,
-//         label: 'Two',
-//     },
-//     {
-//         value: 40,
-//         label: 'Three',
-//     },
-//     {
-//         value: 95,
-//         label: 'Four',
-//     },
-//     {
-//         value: 85,
-//         label: 'Five',
-//     },
-// ]
-
-// const CUT_OFF = 50
-// const Labels = ({  x, y, bandwidth, data }) => (
-//     data.map((value, index) => (
-//         <Text
-//             key={ index }
-//             x={ value > CUT_OFF ? x(0) + 10 : x(value) + 10 }
-//             y={ y(index) + (bandwidth / 2) }
-//             fontSize={ 14 }
-//             fill={ value > CUT_OFF ? 'white' : 'black' }
-//             alignmentBaseline={ 'middle' }
-//         >
-//             {value}
-//         </Text>
-//     ))
-// )
-
-//                         {/* <YAxis
-//                         data={data}
-//                         contentInset={{top: 20}}
-//                         yAccessor={({ index }) => index}
-//                         svg={{
-//                             fill: 'grey',
-//                             fontSize: 10,
-//                         }}
-//                         scale={scale.scaleBand}
-//                         numberOfTicks={10}
-//                         formatLabel={(days) => `${days}`}
-//                     /> */}
-//                     <BarChart 
-//                         // style={styles.PeriodChart}
-//                         yAccessor={({ item }) => item.value}
-//                         xAccessor={({ item }) => item.label}
-//                         data={data}
-//                         svg={{fill:COLORS.MID_BLUE}}
-//                         contentInset={{top: 10}}
-//                         gridMin={0}
-//                         horizontal={true}
-                        
-//                     >
-//                         <Grid direction={Grid.Direction.VERTICAL}/>
-//                         {/* <Labels/> */}
-//                     </BarChart>
-//                     {/* <XAxis
-//                         data={data}
-//                         contentInset={{left:10}}
-//                         xAccessor={({ index }) => index}
-//                         svg={{
-//                             fill: 'grey',
-//                             fontSize: 10,
-//                         }}
-//                         scale={scale.scaleBand}
-//                         numberOfTicks={10}
-//                         formatLabel={(days) => `${days}`}  
-//                     /> */}
-//                     {/* X axis: days/duration, Y axis: start date */}

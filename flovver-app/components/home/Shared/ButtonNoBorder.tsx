@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         backgroundColor: PINK,
         borderWidth: .5,
         borderColor: PINK,
-        marginTop:5 , 
+        // marginTop:5 , 
         height: 80,
         width: 80,
     },

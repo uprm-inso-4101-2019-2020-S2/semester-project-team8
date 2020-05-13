@@ -10,6 +10,8 @@ import Home from './components/home/Home'
 import FontLoad from './components/shared/FontLoad'
 import { StatusBar } from 'react-native';
 
+console.disableYellowBox = true;
+
 const App = () => (
     <Store>
       <StatusBar hidden={true} />

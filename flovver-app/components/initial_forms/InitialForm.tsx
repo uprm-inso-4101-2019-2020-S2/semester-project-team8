@@ -38,7 +38,8 @@ const InitialForm = ( { history } ) => {
             }
         }).catch(e => {
             
-            if (e && e.status && (e.status === 403 || e.status === 401 || e.status === 400)){
+            if (e.response && e.response.status &&
+                (e.response.status === 403 || e.response.status === 401 || e.response.status === 400)){
                 dispatcher(actions.setUser(null))
                 dispatcher(actions.setToken(null))
                 dispatcher(actions.setSignIn(false))

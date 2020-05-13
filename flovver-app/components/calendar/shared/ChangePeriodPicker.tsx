@@ -37,10 +37,11 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
     const history = useHistory()
 
     const onDayLongPress = ( {dateString} ) => {
-        
+       
         for(let i = 0; i < state.user.cycle.length; i++){
             
             if(dateString === state.user.cycle[i].bleed_start){
+                
                 setSelectedId(state.user.cycle[i].id)
                 setMaxDate(new Date(state.user.cycle[i].bleed_end))
                 setStartSelected(true)
@@ -52,6 +53,7 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
             }
 
             else if(dateString === state.user.cycle[i].bleed_end) {
+                
                 setSelectedId(state.user.cycle[i].id)
                 let m0 = moment.utc(state.user.cycle[i].bleed_start)
                 m0 = m0.add(2, 'days')
@@ -103,7 +105,8 @@ const ChangePeriodPicker = ({markedDays, setIsLoading}) => {
                 }
             }).then(() => { setIsLoading(false) } )
             .catch(e => {
-                if(e && e.status && (e.status == 403 || e.status == 400) ) {
+                if(e.response && e.response.status && 
+                    (e.response.status == 403 || e.response.status == 400) ) {
                     console.log("Timed Out sign in again")
                     dispatcher(actions.setUser(null))
                     dispatcher(actions.setToken(null))

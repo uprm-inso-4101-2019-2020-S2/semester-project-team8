@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 
 import { Text, View, StyleSheet } from 'react-native'
 
@@ -10,11 +10,25 @@ import TitleArea from '../settings/TitleArea'
 
 import { UserContext } from '../../store/UserContext'
 
+import * as moment  from 'moment'
 
 const InitialView = ({history}) => {
 
-    
-    
+    const [state] = useContext(UserContext)
+
+    const getBleedDurationAvg = () => {
+
+        let sum = 0;
+
+        state.user.cycle.forEach((element) => {
+            let m1 = moment.utc(element.bleed_start)
+            let m2 = moment.utc(element.bleed_end)
+
+            sum += m2.diff(m1, 'days') + 1
+        })
+
+        return sum/(state.user.cycle.length);
+    }
 
     return(
 
@@ -33,7 +47,9 @@ const InitialView = ({history}) => {
                     </View>
                 
                 <View style={styles.AveragePeriodLength}>
-                    <Text style={styles.averageTextStyle}>YOUR AVERAGE PERIOD LENGTH: [X DAYS]</Text>
+                    <Text style={styles.averageTextStyle}>
+                        YOUR AVERAGE PERIOD LENGTH: {getBleedDurationAvg()} DAYS
+                    </Text>
                 </View>
             </View>
             <View style={styles.CycleContainer}>
@@ -44,7 +60,7 @@ const InitialView = ({history}) => {
                     <ChartInfo forPeriod={false}></ChartInfo>
                 </View>
                 <View style={styles.AverageCycleLength}>
-                    <Text style={styles.averageTextStyle}>YOUR AVERAGE CYCLE LENGTH: [X DAYS]</Text>
+                    <Text style={styles.averageTextStyle}>YOUR AVERAGE CYCLE LENGTH: {state.user.cycle_avg} DAYS</Text>
                 </View>
             </View>
 

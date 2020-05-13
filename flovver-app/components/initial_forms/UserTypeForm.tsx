@@ -1,20 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { View, Dimensions, Text, StyleSheet } from 'react-native'
 
 import BackArrow from './Shared/BackArrow'
 import ScrollPicker from './Shared/ScrollPicker'
 import Next from './Shared/Next'
+import { UserContext } from '../../store/UserContext'
 
 import * as COLORS from '../../styles/colors'
 
+import * as actions from '../../store/actions'
 
-const UserTypeForm = ({ onSubmit, value, history }) => (
+const UserTypeForm = ({ onSubmit, value, history }) => {
+    
+    const [state, dispatcher] = useContext(UserContext) 
+
+    const onBack = ()=> {
+        dispatcher(actions.setSignIn(false))
+        dispatcher(actions.setToken(null))
+        dispatcher(actions.setUser(null))
+        dispatcher(actions.setSharedUsers([]))
+        history.push("/Login")
+    }
+
+    return(
     <>
         <View 
             style={{marginTop:10, alignSelf:"stretch"}}
         >
-            <BackArrow onPress={()=>history.push("/Login")} />
+            <BackArrow onPress={()=>{ onBack() }} />
             <Text style={styles.title}>What type of user will {"\n"} you be?</Text>
         </View>
         <ScrollPicker 
@@ -28,8 +42,8 @@ const UserTypeForm = ({ onSubmit, value, history }) => (
                 will not be able to edit calendars.</Text>
             <Next onPress={()=>{history.push("/InitialForm/Period")}} />
         </View> 
-    </>
-)
+    </>)
+}
 
 export default UserTypeForm
 

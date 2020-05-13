@@ -36,6 +36,7 @@ const PeriodForm = ({history, periodStart, onSubmit}) => {
                 value={periodStart}
                 onChange = {onChange}
                 style={{backgroundColor:PINK}}
+                maximumDate={new Date()}
                />
             }
             <Next onPress={()=>{history.push("/InitialForm/Duration")}} />  
