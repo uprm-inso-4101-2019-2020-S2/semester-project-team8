@@ -35,27 +35,32 @@
 
 ## Functions:
 
-* Get People that can see your calendar 
+### Share Calendar with other people functions
 
+* Get People that can see your calendar 
+    * Name: GET_SHARED_USERS
     * PARAMETERS: User U
     * Returns: Set of Users U
 
 * Get People that you can see there calendar:
-
+    * Name: GET_SHARED_WITH_ME 
     * PARAMETERS: User U
     * Returns: Set of Users U
 
 * Approve another Person's request to show you his calendar
-
+    * Name: APPROVE
     * PARAMETERs: User U1, User U2
 
 * Get Unapproved message:
-
-    * PARAMETERS: U1,
+    * Name: GET_UNAPPROVED
+    * PARAMETERS: User U1,
     * Returns : Set of Users U
 
 * View other persons menstrual information:
-
-    * PARAMETERS: U1, U2
+    * Name: GET_CYCLE_INFO
+    * PARAMETERS: User U1, User U2
     * Returns: Set of MenstrualCycles M
+    
+### Share 
+
 

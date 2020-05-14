@@ -5,20 +5,19 @@
 * App.tsx -  File containing the existing routes that the applications uses.
 
 ```
-<Route exact path="/Login" component={Login} />
+Login: <Route exact path="/Login" component={Login} />
 
-<Route path="/InitialForm" component={InitialForm} />
+InitialForm: <Route path="/InitialForm" component={InitialForm} />
 
-<Route path="/Home" component={Home} />
+Home: <Route path="/Home" component={Home} />
 
-<Route path="/" render={()=><Redirect to="/Home/Index"/>} />         
+Index: <Route path="/" render={()=><Redirect to="/Home/Index"/>} />         
 ```
 
 * /assets - Contains basic components of the application such as font style and the app icons.
 * /backend_requests
 * /components - All the visual components of the application
     * /calendar - Holds the components that make up the calendar section in the application.
-        * Avaliable Routes: Home
     * /home - Holds the components that make up the main area of the application.
     * /initial_forms - Holds the components that make up the initial form provided for new users.
     * /login - Holds the components that make up the initial google login screen.
@@ -33,4 +32,4 @@
 * /styles - Contains the color pallet used in the application.
 
 # Frontend State Diagram
-![image](../Documents/Diagrams/Flovver-Frontend-State-Diagram-2.0.png)
+![image](../Documents/Diagrams/Flovver-Frontend-State-Diagram-2.0.jpg)

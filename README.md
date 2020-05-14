@@ -14,7 +14,7 @@ Application figma mock up design prototype : https://www.figma.com/proto/Sa8Rgvi
 
 Application expo demo link : https://expo.io/@flovver-corp/Flovver
 
-Application video demo link : 
+Application video demo link : https://www.youtube.com/watch?v=ZN5GHsWceT0&feature=youtu.be 
 
 # Pre-requisites:
 * Download the expo app in your phone for testing app  
